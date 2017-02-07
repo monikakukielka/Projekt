@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import {NavController, NavParams, Platform} from 'ionic-angular';
-import {  SQLite } from 'ionic-native';
+import {  SQLite, Toast } from 'ionic-native';
 
+
+declare var window: any;
 
 @Component({
   selector: 'page-signup',
@@ -10,6 +12,10 @@ import {  SQLite } from 'ionic-native';
 export class Signup {
   public database: SQLite;
   public uzytkownik: Array<Object>;
+  public name_id: String = '';
+  public username_id: String = '';
+  public password_id: String = '';
+  public confirm_password_id: String ='';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform) {
     this.platform.ready().then(() => {
@@ -29,12 +35,31 @@ export class Signup {
     this.navCtrl.pop();
   }
 
-  public add() {
-    this.database.executeSql("INSERT INTO uzytkownik(id, login, haslo, imie) VALUES (1,'monia','monia','monia')", []).then((data) => {
-      console.log("INSERTED: " + JSON.stringify(data));
-    }, (error) => {
-      console.log("ERROR add: " + JSON.stringify(error.err));
-    });
+  showToast(message, position) {
+    Toast.show(message, "short", position).subscribe(
+      toast => {
+        console.log(toast);
+      }
+    );
+  }
+
+
+  public signup() {
+    if (this.password_id == this.confirm_password_id){
+      this.database.executeSql("INSERT INTO uzytkownik(login, haslo, imie) VALUES ('"+this.name_id+"','"+this.username_id+"','"+this.password_id+"')", []).then((data) => {
+        console.log("INSERTED: " + JSON.stringify(data));
+
+        this.showToast('INSERTED','top');
+
+      }, (error) => {
+        console.log("ERROR add: " + JSON.stringify(error.err));
+      });
+
+    }
+    else{
+      alert("Błędn");
+    }
+
   }
 
   public refresh(){
@@ -54,4 +79,9 @@ export class Signup {
 
         });
   }
+
+
+
+
+
 }

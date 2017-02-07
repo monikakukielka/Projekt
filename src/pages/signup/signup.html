@@ -25,28 +25,33 @@
       {{uzytkownik.login}} {{uzytkownik.haslo}} {{uzytkownik.imie}}
     </ion-item>
 
-    <ion-item>
-      <ion-label floating>Name </ion-label>
-      <ion-input type="text"></ion-input>
-    </ion-item>
+  <ion-item>
+    <ion-label floating>Name </ion-label>
+    <ion-input type="text" [(ngModel)]="name_id" name="name_id"></ion-input>
+  </ion-item>
 
-    <ion-item>
-      <ion-label floating>Username </ion-label>
-      <ion-input type="text"></ion-input>
-    </ion-item>
+  <ion-item>
+    <ion-label floating>Username </ion-label>
+    <ion-input type="text" [(ngModel)]="username_id" name="username_id"></ion-input>
+  </ion-item>
 
 
-    <ion-item>
-      <ion-label floating>Password </ion-label>
-      <ion-input type="password"></ion-input>
-    </ion-item>
+  <ion-item>
+    <ion-label floating>Password </ion-label>
+    <ion-input type="password" [(ngModel)]="password_id" name="password_id"></ion-input>
+  </ion-item>
 
-    <ion-item>
-      <ion-label floating>Confirm Password </ion-label>
-      <ion-input type="password"></ion-input>
-    </ion-item>
+  <ion-item>
+    <ion-label floating>Confirm Password </ion-label>
+    <ion-input type="password" [(ngModel)]="confirm_password_id" name="confirm_password_id"></ion-input>
+  </ion-item>
+
+
+
 
   </ion-list>
   <button block ion-button (click)="signup()">Sign Up</button>
   <button clear block ion-button (click)="goToLogin()">Already have an Account? Login Here</button>
+
+  <!--<button (click)="showToast('Hello World', 'top')">Show Top</button> -->
 </ion-content>
