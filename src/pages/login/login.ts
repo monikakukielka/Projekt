@@ -22,7 +22,7 @@ export class LoginPage {
 
     this.platform.ready().then(() => {
       this.database = new SQLite();
-      this.database.openDatabase({name: "data.db", location: "default"}).then(() => {
+      this.database.openDatabase({name: "data.db", location: "C:\Users\Monia\Projekt"}).then(() => {
         this.refresh();
       }, (error) => {
         console.log("ERROR constructor: ", error);
@@ -45,7 +45,7 @@ export class LoginPage {
   login(){
     this.database.executeSql("SELECT id FROM uzytkownik WHERE login = "+ this.username_id +" " , []).then((data) => {
       this.showToast('Zalogowany','top');
-      this.navCtrl.push(MainPage);
+      //this.navCtrl.push(MainPage);
     });
 
   }
