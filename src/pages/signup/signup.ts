@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {NavController, NavParams, Platform} from 'ionic-angular';
 import {  SQLite, Toast } from 'ionic-native';
-
+import {LoginPage} from '../login/login';
 
 declare var window: any;
 
@@ -50,6 +50,7 @@ export class Signup {
         console.log("INSERTED: " + JSON.stringify(data));
 
         this.showToast('INSERTED','top');
+        this.navCtrl.push(LoginPage);
 
       }, (error) => {
         console.log("ERROR add: " + JSON.stringify(error.err));
@@ -57,8 +58,10 @@ export class Signup {
 
     }
     else{
-      alert("Błędn");
+      alert("Bad confirm password");
     }
+
+
 
   }
 
