@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import {NavController, Platform, NavParams} from 'ionic-angular';
 
 import { Signup } from '../signup/signup';
-import {MainPage} from '../main/main';
+import { MainPage } from '../main/main';
 import {SQLite, Splashscreen, StatusBar, Toast} from 'ionic-native';
 
 @Component({
@@ -12,11 +12,11 @@ import {SQLite, Splashscreen, StatusBar, Toast} from 'ionic-native';
 
 
 export class LoginPage {
-  public username_id: String = '';
-  public password_id: String = '';
-  public login_variable: String = '';
+  public username: String = '';
+  public password: String = '';
   public database: SQLite;
-  public uzytkownik: Array<Object>;
+  public user: Array<Object>;
+  private id_var;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform) {
 
@@ -43,23 +43,34 @@ export class LoginPage {
   }
 
   login(){
-    this.database.executeSql("SELECT id FROM uzytkownik WHERE login = "+ this.username_id , []).then((data) => {
-      this.showToast('Znaleziono użytkownika','top');
-      this.navCtrl.push(MainPage);
-    });
+    this.showToast('Przed logowaniem','top');
+    this.showToast(this.username,'top');
+    this.database.executeSql("SELECT id FROM user WHERE username='"+this.username+"' and password='"+this.password+"'" , []).then((data) => {
 
+       // this.showToast(this.id_var,'top');
+
+        if(data.rows.length > 0) {
+          this.showToast('Znaleziono uzytkownika','top');
+          this.navCtrl.push(MainPage);
+        }
+
+
+
+    }, (error) =>{
+      this.showToast('Brak uzytkonika', top);
+    });
 
   }
 
   public refresh(){
-    this.database.executeSql("SELECT * FROM uzytkownik", []).then((data) => {
-      this.uzytkownik = [];
+    this.database.executeSql("SELECT * FROM user", []).then((data) => {
+      this.user = [];
       if (data.rows.length > 0) {
         for (var i = 0; i < data.rows.length; i++) {
-          this.uzytkownik.push({
-            login: data.rows.item(i).login,
-            haslo: data.rows.item(i).haslo,
-            imie: data.rows.item(i).imie
+          this.user.push({
+            username: data.rows.item(i).username,
+            password: data.rows.item(i).password
+           // name: data.rows.item(i).name
           });
         }
       }

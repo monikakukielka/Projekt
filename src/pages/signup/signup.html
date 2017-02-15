@@ -4,13 +4,13 @@
       Fiszki
     </ion-title>
 
-    <ion-buttons start>
+ <!--   <ion-buttons start>
       <button (click)="refresh()">Refresh</button>
     </ion-buttons>
     <ion-buttons end>
       <button (click)="add()">Add</button>
     </ion-buttons>
-
+-->
 
   </ion-navbar>
 </ion-header>
@@ -22,28 +22,28 @@
   </ion-card>
   <ion-list no-lines>
     <ion-item *ngFor="let person of people">
-      {{uzytkownik.login}} {{uzytkownik.haslo}} {{uzytkownik.imie}}
+      {{user.username}} {{user.password}} {{user.name}}
     </ion-item>
 
   <ion-item>
     <ion-label floating>Name </ion-label>
-    <ion-input type="text" [(ngModel)]="name_id" name="name_id"></ion-input>
+    <ion-input type="text" [(ngModel)]="name" name="name"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label floating>Username </ion-label>
-    <ion-input type="text" [(ngModel)]="username_id" name="username_id"></ion-input>
+    <ion-input type="text" [(ngModel)]="username" name="username"></ion-input>
   </ion-item>
 
 
   <ion-item>
     <ion-label floating>Password </ion-label>
-    <ion-input type="password" [(ngModel)]="password_id" name="password_id"></ion-input>
+    <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label floating>Confirm Password </ion-label>
-    <ion-input type="password" [(ngModel)]="confirm_password_id" name="confirm_password_id"></ion-input>
+    <ion-input type="password" [(ngModel)]="confirm_password" name="confirm_password"></ion-input>
   </ion-item>
 
 

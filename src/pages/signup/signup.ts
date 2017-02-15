@@ -11,11 +11,11 @@ declare var window: any;
 })
 export class Signup {
   public database: SQLite;
-  public uzytkownik: Array<Object>;
-  public name_id: String = '';
-  public username_id: String = '';
-  public password_id: String = '';
-  public confirm_password_id: String ='';
+  public user: Array<Object>;
+  public name: String = '';
+  public username: String = '';
+  public password: String = '';
+  public confirm_password: String ='';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform) {
     this.platform.ready().then(() => {
@@ -45,8 +45,8 @@ export class Signup {
 
 
   public signup() {
-    if (this.password_id == this.confirm_password_id){
-      this.database.executeSql("INSERT INTO uzytkownik(login, haslo, imie) VALUES ('"+this.name_id+"','"+this.username_id+"','"+this.password_id+"')", []).then((data) => {
+    if (this.password == this.confirm_password){
+      this.database.executeSql("INSERT INTO user(username, password, name) VALUES ('"+this.username +"','"+this.password+"','"+this.name +"')", []).then((data) => {
         console.log("INSERTED: " + JSON.stringify(data));
 
         this.showToast('INSERTED','top');
@@ -66,14 +66,14 @@ export class Signup {
   }
 
   public refresh(){
-    this.database.executeSql("SELECT * FROM uzytkownik", []).then((data) => {
-        this.uzytkownik = [];
+    this.database.executeSql("SELECT * FROM user", []).then((data) => {
+        this.user = [];
         if (data.rows.length > 0) {
           for (var i = 0; i < data.rows.length; i++) {
-            this.uzytkownik.push({
-              login: data.rows.item(i).login,
-              haslo: data.rows.item(i).haslo,
-              imie: data.rows.item(i).imie
+            this.user.push({
+              username: data.rows.item(i).username,
+              password: data.rows.item(i).password,
+              name: data.rows.item(i).name
             });
           }
         }

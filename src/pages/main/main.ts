@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-
+import { ExampleWordsPage } from '../example-words/example-words';
+import { AddGroupPage } from '../add-group/add-group';
 /*
   Generated class for the Main page.
 
@@ -17,6 +18,13 @@ export class MainPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MainPage');
+  }
+
+  goToExampleDatabase(){
+    this.navCtrl.push(ExampleWordsPage);
+  }
+  createGroup(){
+    this.navCtrl.push(AddGroupPage);
   }
 
 }
