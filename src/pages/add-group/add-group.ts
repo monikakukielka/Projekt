@@ -63,7 +63,7 @@ export class AddGroupPage {
 
   addGroup(){
 
-    this.database.executeSql("INSERT INTO group(group_name, id_user) VALUES ('"+this.group_name +"','"+this.storageService.id_user+"')", []).then((data) => {
+    this.database.executeSql("INSERT INTO grupa(group_name, id_user) VALUES ('"+this.group_name +"','"+this.storageService.id_user+"')", []).then((data) => {
       console.log("INSERTED: " + JSON.stringify(data));
 
       this.showToast('INSERTED group','top');
