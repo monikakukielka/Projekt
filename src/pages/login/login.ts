@@ -5,6 +5,7 @@ import {NavController, Platform, NavParams} from 'ionic-angular';
 import { Signup } from '../signup/signup';
 import { MainPage } from '../main/main';
 import {SQLite, Splashscreen, StatusBar, Toast} from 'ionic-native';
+import {StorageService} from "../../app/storage.service";
 
 @Component({
   templateUrl: 'login.html'
@@ -12,13 +13,14 @@ import {SQLite, Splashscreen, StatusBar, Toast} from 'ionic-native';
 
 
 export class LoginPage {
+  public zmienna: String ='';
   public username: String = '';
   public password: String = '';
   public database: SQLite;
   public user: Array<Object>;
   private id_var;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService: StorageService) {
 
     this.platform.ready().then(() => {
       this.database = new SQLite();
@@ -44,14 +46,19 @@ export class LoginPage {
 
   login(){
     this.showToast('Przed logowaniem','top');
-    this.showToast(this.username,'top');
+    //this.showToast(this.username,'top');
     this.database.executeSql("SELECT id FROM user WHERE username='"+this.username+"' and password='"+this.password+"'" , []).then((data) => {
 
        // this.showToast(this.id_var,'top');
+      this.showToast('weszło','top');
+
+      console.log(JSON.stringify(data.rows.item(0)));
 
         if(data.rows.length > 0) {
-          this.showToast('Znaleziono uzytkownika','top');
-          this.navCtrl.push(MainPage);
+          this.storageService.id_user=data.rows.item(0).id;
+          this.showToast(data.rows.item(0).id,'top');
+
+        this.navCtrl.push(MainPage);
         }
 
 
@@ -70,6 +77,7 @@ export class LoginPage {
           this.user.push({
             username: data.rows.item(i).username,
             password: data.rows.item(i).password
+
            // name: data.rows.item(i).name
           });
         }

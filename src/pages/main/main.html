@@ -1,18 +1,21 @@
-<ion-header>
+<ion-header color="primary">
 
-  <ion-navbar>
-    <ion-title>MainPage</ion-title>
+  <ion-navbar color="primary" >
+    <ion-title color="primary" >FISZKI</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
+  <ion-card>
+    <img src="assets/images/london2.jpg" class="photo"/>
+  </ion-card>
 
  <ion-list>
 
-   <button clear block ion-button (click)="goToExampleDatabase()">Examples words to start</button>
-   <button clear block ion-button (click)="createGroup()">Create your own Word Database</button>
+  <button large block ion-button class="myButton" color="secondary" (click)="powtarzanie()">Powtarzaj</button>
+  <button large block ion-button class="testButton" color="banana" (click)="test()">Test</button>
+  <button large block ion-button class="addButton" color="juice" (click)="createGroup()">Skomponuj własny zestaw</button>
 
  </ion-list>
 

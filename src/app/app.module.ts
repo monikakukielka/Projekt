@@ -7,6 +7,9 @@ import { MainPage } from '../pages/main/main';
 import { ExampleWordsPage } from '../pages/example-words/example-words';
 import { AddGroupPage } from '../pages/add-group/add-group';
 import { AddWordPage } from '../pages/add-word/add-word';
+import {StorageService} from "./storage.service";
+
+
 @NgModule({
   declarations: [
     MyApp,
@@ -15,7 +18,8 @@ import { AddWordPage } from '../pages/add-word/add-word';
     MainPage,
     AddGroupPage,
     AddWordPage,
-    ExampleWordsPage
+    ExampleWordsPage,
+
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -30,6 +34,6 @@ import { AddWordPage } from '../pages/add-word/add-word';
     AddWordPage,
     ExampleWordsPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler }, StorageService]
 })
 export class AppModule {}

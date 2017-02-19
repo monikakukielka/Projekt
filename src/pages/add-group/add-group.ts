@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, Platform} from 'ionic-angular';
 import {  SQLite, Toast } from 'ionic-native';
 import { AddWordPage } from '../add-word/add-word';
+import {StorageService} from "../../app/storage.service";
 /*
   Generated class for the AddGroup page.
 
@@ -17,7 +18,7 @@ export class AddGroupPage {
   public group: Array<Object>;
   public group_name: String = '';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService : StorageService) {
 
     this.platform.ready().then(() => {
       this.database = new SQLite();
@@ -62,7 +63,7 @@ export class AddGroupPage {
 
   addGroup(){
 
-    this.database.executeSql("INSERT INTO group(group_name, id_user) VALUES ('"+this.group_name +"','"+this.id_user+"')", []).then((data) => {
+    this.database.executeSql("INSERT INTO group(group_name, id_user) VALUES ('"+this.group_name +"','"+this.storageService.id_user+"')", []).then((data) => {
       console.log("INSERTED: " + JSON.stringify(data));
 
       this.showToast('INSERTED group','top');

@@ -45,7 +45,7 @@ export class MyApp {
       }
 
 
-      db.executeSql("CREATE TABLE IF NOT EXISTS word_en (id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT)", {}).then((data) => {
+      db.executeSql("CREATE TABLE IF NOT EXISTS word_en (id INTEGER PRIMARY KEY AUTOINCREMENT, word_en_name TEXT)", {}).then((data) => {
         console.log("TABLE word_en CREATED: ", data);
         this.showToast('Created word_en', 'top');
 
@@ -54,7 +54,7 @@ export class MyApp {
       }
 
 
-      db.executeSql("CREATE TABLE IF NOT EXISTS word_pl (id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT)", {}).then((data) => {
+      db.executeSql("CREATE TABLE IF NOT EXISTS word_pl (id INTEGER PRIMARY KEY AUTOINCREMENT, word_pl_name TEXT)", {}).then((data) => {
         console.log("TABLE word_pl CREATED: ", data);
         this.showToast('Created word', 'top');
 
