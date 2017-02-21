@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {NavController, NavParams, Platform} from 'ionic-angular';
 import {  SQLite, Toast } from 'ionic-native';
+import {StorageService} from "../../app/storage.service";
 
 /*
   Generated class for the AddWord page.
@@ -14,29 +15,144 @@ import {  SQLite, Toast } from 'ionic-native';
 })
 export class AddWordPage {
   public database: SQLite;
-  public group: Array<Object>;
+  public translation: Array<Object>;
+  public word_pl: Array<Object>;
+  public word_en: Array<Object>;
   public word_pl_name: String='';
+  public word_en_name: String='';
+  public id_word_en: number=0;
+  public id_word_pl: number=0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams,  private platform: Platform, private storageService : StorageService) {
+    this.platform.ready().then(() => {
+      this.database = new SQLite();
+      this.database.openDatabase({name: "data.db", location: "default"}).then(() => {
+        this.refresh();
+      }, (error) => {
+        console.log("ERROR constructor: ", error);
+      });
+    });
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddWordPage');
   }
 
+  showToast(message, position) {
+    Toast.show(message, "short", position).subscribe(
+      toast => {
+        console.log(toast);
+      }
+    );
+  }
 
+
+  public refresh(){
+    this.database.executeSql("SELECT * FROM translation", []).then((data) => {
+      this.translation = [];
+      if (data.rows.length > 0) {
+        for (var i = 0; i < data.rows.length; i++) {
+          this.translation.push({
+            group_name: data.rows.item(i).group_name,
+
+          });
+        }
+      }
+    },(error) => {
+      console.log("ERROR refresh: " + JSON.stringify(error));
+
+    });
+  }
 
 
   addWord(){
-  if
-    this.database.executeSql("INSERT INTO grupa(group_name, id_user) VALUES ('"+this.group_name +"','"+this.storageService.id_user+"')", []).then((data) => {
+    var insertedWordEnId : Number=0;
+    var insertedWordPlId : Number=0;
+
+    this.database.executeSql("INSERT INTO word_en(word_en_name) VALUES ('"+this.word_en_name+"')", []).then((data) => {
+      console.log("INSERTED en: " + JSON.stringify(data));
+      console.log("insertId en: " + data.insertId);
+      insertedWordEnId=data.insertId;
+
+      this.database.executeSql("INSERT INTO word_pl(word_pl_name) VALUES ('"+this.word_pl_name+"')", []).then((data) => {
+        console.log("INSERTED pl: " + JSON.stringify(data));
+        console.log("insertId pl: " + data.insertId);
+        insertedWordPlId = data.insertId;
+
+        this.database.executeSql("INSERT INTO translation (id_word_en, id_word_pl) VALUES ('"+insertedWordEnId+"','"+insertedWordPlId+"')", []).then((data) => {
+          console.log("INSERTED pl: " + JSON.stringify(data));
+          console.log("insertId pl: " + data.insertId);
+          this.showToast('Dodano tlumaczenie:'+this.word_en_name+' : '+this.word_pl_name,'top');
+
+
+        }, (error) => {
+          console.log("ERROR add: " + JSON.stringify(error.err));
+        });
+
+
+      }, (error) => {
+        console.log("ERROR adding word_pl: " + JSON.stringify(error.err));
+      });
+
+    }, (error) => {
+      console.log("ERROR adding word_en: " + JSON.stringify(error.err));
+    });
+
+
+
+
+ /* if(this.word_en_name != null && this.word_pl_name != null){
+
+    this.database.executeSql("INSERT INTO word_en(word_en_name) VALUES ('"+this.word_en_name+"')", []).then((data) => {
       console.log("INSERTED: " + JSON.stringify(data));
 
-      this.showToast('INSERTED group','top');
-      this.navCtrl.push(AddWordPage);
+      this.showToast('INSERTED word_en','top');
+      this.database.executeSql("SELECT id FROM word_en WHERE word_en_name='"+this.word_en_name+"')", []).then((data) => {
+
+          this.id_word_en=data.rows.item(0).id;
+
+      }, (error) => {
+        console.log("ERROR add: " + JSON.stringify(error.err));
+      });
 
     }, (error) => {
       console.log("ERROR add: " + JSON.stringify(error.err));
     });
 
-  }
+
+
+    this.database.executeSql("INSERT INTO word_pl(word_pl_name) VALUES ('"+this.word_pl_name+"')", []).then((data) => {
+      console.log("INSERTED: " + JSON.stringify(data));
+
+      this.showToast('INSERTED word_epl','top');
+
+      this.database.executeSql("SELECT id FROM word_pl WHERE word_pl_name='"+this.word_pl_name+"')", []).then((data) => {
+
+        this.id_word_pl=data.rows.item(0).id;
+
+      }, (error) => {
+        console.log("ERROR add: " + JSON.stringify(error.err));
+      });
+
+
+    }, (error) => {
+      console.log("ERROR add: " + JSON.stringify(error.err));
+    });
+
+    this.database.executeSql("INSERT INTO translation (id_word_en, id_word_pl) VALUES ('"+this.id_word_en+"','"+this.id_word_pl"')", []).then((data) => {
+
+      this.showToast('INSERTED into translation','top');
+
+
+    }, (error) => {
+      console.log("ERROR add: " + JSON.stringify(error.err));
+    });
+
+
+
+
+  } */
+
+
+}
 }

@@ -8,5 +8,5 @@ import { Injectable } from '@angular/core';
 export class StorageService {
   public id_user: number=0;
 
-
+  public id_word_en: number=0;
 }

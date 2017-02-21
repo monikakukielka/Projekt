@@ -15,7 +15,7 @@ import {StorageService} from "../../app/storage.service";
 })
 export class AddGroupPage {
   public database: SQLite;
-  public group: Array<Object>;
+  public grupa: Array<Object>;
   public group_name: String = '';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService : StorageService) {
@@ -44,11 +44,11 @@ export class AddGroupPage {
     console.log('ionViewDidLoad AddGroupPage');
   }
   public refresh(){
-    this.database.executeSql("SELECT * FROM group", []).then((data) => {
-      this.group = [];
+    this.database.executeSql("SELECT * FROM grupa", []).then((data) => {
+      this.grupa = [];
       if (data.rows.length > 0) {
         for (var i = 0; i < data.rows.length; i++) {
-          this.group.push({
+          this.grupa.push({
             group_name: data.rows.item(i).group_name,
 
           });

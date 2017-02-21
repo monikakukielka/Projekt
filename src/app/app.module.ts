@@ -8,7 +8,7 @@ import { ExampleWordsPage } from '../pages/example-words/example-words';
 import { AddGroupPage } from '../pages/add-group/add-group';
 import { AddWordPage } from '../pages/add-word/add-word';
 import {StorageService} from "./storage.service";
-
+import { TestPage } from "../pages/test/test";
 
 @NgModule({
   declarations: [
@@ -18,6 +18,7 @@ import {StorageService} from "./storage.service";
     MainPage,
     AddGroupPage,
     AddWordPage,
+    TestPage,
     ExampleWordsPage,
 
   ],
@@ -32,6 +33,7 @@ import {StorageService} from "./storage.service";
     MainPage,
     AddGroupPage,
     AddWordPage,
+    TestPage,
     ExampleWordsPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler }, StorageService]
