@@ -6,6 +6,7 @@ import { Signup } from '../signup/signup';
 import { MainPage } from '../main/main';
 import {SQLite, Splashscreen, StatusBar, Toast} from 'ionic-native';
 import {StorageService} from "../../app/storage.service";
+import { TabsPage} from "../tabs/tabs";
 
 @Component({
   templateUrl: 'login.html'
@@ -58,7 +59,7 @@ export class LoginPage {
           this.storageService.id_user=data.rows.item(0).id;
           this.showToast(data.rows.item(0).id,'top');
 
-        this.navCtrl.push(MainPage);
+        this.navCtrl.push(TabsPage);
         }
 
 

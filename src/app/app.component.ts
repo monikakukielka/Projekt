@@ -76,7 +76,7 @@ export class MyApp {
 
         console.log("przed tworzeniem ");
 
-        db.executeSql("CREATE TABLE IF NOT EXISTS grupa (id INTEGER PRIMARY KEY AUTOINCREMENT, group_name TEXT, id_user INTEGER, FOREIGN KEY(id_user) REFERENCES user(id))", {}).then((data) => {
+        db.executeSql("CREATE TABLE IF NOT EXISTS grupa (id INTEGER PRIMARY KEY AUTOINCREMENT, group_name TEXT, built_in integer DEFAULT 0, id_user INTEGER, FOREIGN KEY(id_user) REFERENCES user(id))", {}).then((data) => {
           console.log("TABLE group CREATED:");
 
 

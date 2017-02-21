@@ -1,0 +1,46 @@
+<ion-header color="primary">
+
+  <ion-navbar color="primary" >
+    <ion-title color="primary" >FISZKI</ion-title>
+
+
+  </ion-navbar>
+</ion-header>
+
+
+
+<ion-content>
+
+  <ion-list>
+
+    <ion-item *ngFor="let item of myGroups" (click)="itemSelected(item)">
+      <ion-label>{{ item.group_name }}</ion-label>
+      <ion-checkbox   [(ngModel)]="item.to_delete"></ion-checkbox> <!--tylko wtedy jak nacisne to delete-->
+      <ion-radio value="rust"></ion-radio> <!-- tylko wtedy jak edytuje-->
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+
+    <ion-buttons>
+      <button ion-button icon-only class="addButton" color="royal" (click)="goToAddGroup()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+
+
+      <button ion-button icon-only class="editButton" align="center" color="royal">
+        <ion-icon name="create"></ion-icon>
+      </button>
+
+      <button ion-button icon-only class="removeButton" color="royal">
+        <ion-icon name="remove"></ion-icon>
+      </button>
+    </ion-buttons>
+
+
+  </ion-toolbar>
+</ion-footer>
+

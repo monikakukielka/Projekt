@@ -11,6 +11,7 @@ import { AddGroupPage } from '../add-group/add-group';
 @Component({
   selector: 'page-main',
   templateUrl: 'main.html'
+
 })
 export class MainPage {
 
