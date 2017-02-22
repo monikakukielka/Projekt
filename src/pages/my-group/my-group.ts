@@ -4,6 +4,9 @@ import {AddGroupPage} from "../add-group/add-group";
 import {EditGroupPage} from "../edit-group/edit-group";
 import {SQLite, Toast} from "ionic-native";
 import {Grupa} from "../../my-objects/Grupa";
+import {WordsViewPage} from "../words-view/words-view";
+import {StorageService} from "../../app/storage.service";
+import {Subject} from "rxjs";
 
 
 @Component({
@@ -17,8 +20,18 @@ export class MyGroupPage {
   public grupa: Array<Object>;
   public builtInGroups: Array<Grupa>;
   public myGroups: Array<Grupa>;
+  public toDelete: boolean=false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService:StorageService) {
+
+
+
+    this.storageService.subject.subscribe((value) => {
+      console.log("Reload db "); // Subscription wont get
+      this.myGroups=[];
+         // anything at this point
+      this.loadMyGroups();
+    });
     console.log("my group constructor");
     this.platform.ready().then(() => {
       this.database = new SQLite();
@@ -46,12 +59,36 @@ export class MyGroupPage {
   goToAddGroup(){
     this.navCtrl.push(AddGroupPage);
   }
-skasuj(){
-  for(let i = 0; i < this.myGroups.length; i++) {
-    if(this.myGroups[i].to_delete){
-      //tu robie kasowanie z bazuy
-    }
 
+  itemSelected(id:number){
+    if(this.toDelete){
+      this.myGroups[id].to_delete=true;
+    }
+  }
+
+  skasuj(){
+
+    for(let i = 0; i < this.myGroups.length; i++) {
+      if(this.myGroups[i].to_delete){
+        //tu robie kasowanie z bazuy
+        this.storageService.deleteGroup(this.myGroups[i].id);
+      }
+
+    }
+  }
+
+goToWordsView(){
+  this.navCtrl.push(WordsViewPage);
+}
+
+removeGroup(){
+
+  if(this.toDelete){
+    this.skasuj();
+    this.toDelete =false;
+
+  }else{
+    this.toDelete=true;
   }
 }
 

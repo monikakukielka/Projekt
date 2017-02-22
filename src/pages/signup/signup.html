@@ -16,24 +16,20 @@
       {{user.username}} {{user.password}} {{user.name}}
     </ion-item>
 
-  <ion-item>
-    <ion-label floating>Name </ion-label>
-    <ion-input type="text" [(ngModel)]="name" name="name"></ion-input>
-  </ion-item>
 
   <ion-item>
-    <ion-label floating>Username </ion-label>
+    <ion-label floating>Nazwa użytkownika </ion-label>
     <ion-input type="text" [(ngModel)]="username" name="username"></ion-input>
   </ion-item>
 
 
   <ion-item>
-    <ion-label floating>Password </ion-label>
+    <ion-label floating>Hasło </ion-label>
     <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label floating>Confirm Password </ion-label>
+    <ion-label floating>Powtórz hasło </ion-label>
     <ion-input type="password" [(ngModel)]="confirm_password" name="confirm_password"></ion-input>
   </ion-item>
 
@@ -41,8 +37,8 @@
 
 
   </ion-list>
-  <button block ion-button (click)="signup()">Sign Up</button>
-  <button clear block ion-button (click)="goToLogin()">Already have an Account? Login Here</button>
+  <button block ion-button (click)="signup()">Zarejestruj</button>
+  <button clear block ion-button (click)="goToLogin()">Masz konto? Zaloguj się!</button>
 
   <!--<button (click)="showToast('Hello World', 'top')">Show Top</button> -->
 </ion-content>

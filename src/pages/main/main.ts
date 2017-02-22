@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ExampleWordsPage } from '../example-words/example-words';
 import { AddGroupPage } from '../add-group/add-group';
+import {AddWordPage} from "../add-word/add-word";
+import {LearnWordsPage} from "../learn-words/learn-words";
 /*
   Generated class for the Main page.
 
@@ -27,5 +29,7 @@ export class MainPage {
   createGroup(){
     this.navCtrl.push(AddGroupPage);
   }
-
+  goToLearnWord(){
+    this.navCtrl.push(LearnWordsPage);
+  }
 }

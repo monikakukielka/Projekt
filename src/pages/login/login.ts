@@ -23,7 +23,7 @@ export class LoginPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService: StorageService) {
 
-    this.platform.ready().then(() => {
+  /*  this.platform.ready().then(() => {
       this.database = new SQLite();
       this.database.openDatabase({name: "data.db", location: "default"}).then(() => {
         this.refresh();
@@ -31,12 +31,13 @@ export class LoginPage {
         console.log("ERROR constructor: ", error);
       });
     });
-
+*/
   }
 
   goToSignUp(){
     this.navCtrl.push(Signup);
   }
+
   showToast(message, position) {
     Toast.show(message, "short", position).subscribe(
       toast => {
@@ -47,8 +48,16 @@ export class LoginPage {
 
   login(){
     this.showToast('Przed logowaniem','top');
+    if(this.username != null && this.password != null)
+    {
+      this.storageService.loginUserService(this.username, this.password);
+      console.log("Zalogowałem");
+      this.navCtrl.push(TabsPage);
+    }
+
+
     //this.showToast(this.username,'top');
-    this.database.executeSql("SELECT id FROM user WHERE username='"+this.username+"' and password='"+this.password+"'" , []).then((data) => {
+    /*this.database.executeSql("SELECT id FROM user WHERE username='"+this.username+"' and password='"+this.password+"'" , []).then((data) => {
 
        // this.showToast(this.id_var,'top');
       this.showToast('weszło','top');
@@ -67,10 +76,10 @@ export class LoginPage {
     }, (error) =>{
       this.showToast('Brak uzytkonika', top);
     });
-
+    */
   }
 
-  public refresh(){
+ /* public refresh(){
     this.database.executeSql("SELECT * FROM user", []).then((data) => {
       this.user = [];
       if (data.rows.length > 0) {
@@ -88,7 +97,7 @@ export class LoginPage {
 
     });
   }
-
+*/
 }
 
 

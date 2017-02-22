@@ -1,11 +1,21 @@
 .addButton{
   float: left;
+  margin-left: 10%;
+  margin-bottom: 0;
 }
 
 .editButton{
-
+  margin-left: 40%;
+  margin-bottom:0;
 }
 
 .removeButton{
   float: right;
+  margin-right: 10%;
+}
+.show{
+  display:inline;
+}
+.hide{
+  display:none;
 }

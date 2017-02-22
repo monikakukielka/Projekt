@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {NavController, NavParams, Platform} from 'ionic-angular';
 import {  SQLite, Toast } from 'ionic-native';
 import {StorageService} from "../../app/storage.service";
+import {TabsPage} from "../tabs/tabs";
+import {WordsViewPage} from "../words-view/words-view";
 
 /*
   Generated class for the AddWord page.
@@ -22,6 +24,8 @@ export class AddWordPage {
   public word_en_name: String='';
   public id_word_en: number=0;
   public id_word_pl: number=0;
+  public sentence_en: string='';
+  public sentence_pl: string='';
 
   constructor(public navCtrl: NavController, public navParams: NavParams,  private platform: Platform, private storageService : StorageService) {
     this.platform.ready().then(() => {
@@ -66,38 +70,14 @@ export class AddWordPage {
 
 
   addWord(){
-    var insertedWordEnId : Number=0;
-    var insertedWordPlId : Number=0;
 
-    this.database.executeSql("INSERT INTO word_en(word_en_name) VALUES ('"+this.word_en_name+"')", []).then((data) => {
-      console.log("INSERTED en: " + JSON.stringify(data));
-      console.log("insertId en: " + data.insertId);
-      insertedWordEnId=data.insertId;
+    if(this.word_en_name != null && this.word_pl_name != null)
+    {
+      this.storageService.addWordService(this.word_en_name, this.sentence_en, this.word_pl_name, this.sentence_pl);
+      console.log("Zalogowałem");
+      this.navCtrl.push(WordsViewPage);
 
-      this.database.executeSql("INSERT INTO word_pl(word_pl_name) VALUES ('"+this.word_pl_name+"')", []).then((data) => {
-        console.log("INSERTED pl: " + JSON.stringify(data));
-        console.log("insertId pl: " + data.insertId);
-        insertedWordPlId = data.insertId;
-
-        this.database.executeSql("INSERT INTO translation (id_word_en, id_word_pl) VALUES ('"+insertedWordEnId+"','"+insertedWordPlId+"')", []).then((data) => {
-          console.log("INSERTED pl: " + JSON.stringify(data));
-          console.log("insertId pl: " + data.insertId);
-          this.showToast('Dodano tlumaczenie:'+this.word_en_name+' : '+this.word_pl_name,'top');
-
-
-        }, (error) => {
-          console.log("ERROR add: " + JSON.stringify(error.err));
-        });
-
-
-      }, (error) => {
-        console.log("ERROR adding word_pl: " + JSON.stringify(error.err));
-      });
-
-    }, (error) => {
-      console.log("ERROR adding word_en: " + JSON.stringify(error.err));
-    });
-
+    }
 
 
 

@@ -1,3 +1,11 @@
-/**
- * Created by Monia on 2017-02-22.
- */
+export class User {
+  public id: number;
+  public user_name: string;
+  public password: string;
+  constructor(){
+
+  }
+}
+
+
+

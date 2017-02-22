@@ -28,7 +28,7 @@ export class MyApp {
         name: "data.db",
         location: "default"
       }).then(() => {
-        db.executeSql("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT, name TEXT)", {}).then((data) => {
+        db.executeSql("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT)", {}).then((data) => {
           console.log("TABLE user CREATED: ", data);
 
 
@@ -48,7 +48,7 @@ export class MyApp {
 
 
 
-        db.executeSql("CREATE TABLE IF NOT EXISTS word_en (id INTEGER PRIMARY KEY AUTOINCREMENT, word_en_name TEXT)", {}).then((data) => {
+        db.executeSql("CREATE TABLE IF NOT EXISTS word_en (id INTEGER PRIMARY KEY AUTOINCREMENT, word_en_name TEXT, sentence_en TEXT)", {}).then((data) => {
           console.log("TABLE word_en CREATED: ", data);
 
 
@@ -57,7 +57,7 @@ export class MyApp {
         }
 
 
-        db.executeSql("CREATE TABLE IF NOT EXISTS word_pl (id INTEGER PRIMARY KEY AUTOINCREMENT, word_pl_name TEXT)", {}).then((data) => {
+        db.executeSql("CREATE TABLE IF NOT EXISTS word_pl (id INTEGER PRIMARY KEY AUTOINCREMENT, word_pl_name TEXT, sentence_pl TEXT)", {}).then((data) => {
           console.log("TABLE word_pl CREATED: ", data);
 
 

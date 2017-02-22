@@ -3,12 +3,9 @@ import { NavController, NavParams, Platform} from 'ionic-angular';
 import {  SQLite, Toast } from 'ionic-native';
 import { AddWordPage } from '../add-word/add-word';
 import {StorageService} from "../../app/storage.service";
-/*
-  Generated class for the AddGroup page.
+import {MyGroupPage} from "../my-group/my-group";
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+
 @Component({
   selector: 'page-add-group',
   templateUrl: 'add-group.html'
@@ -20,7 +17,7 @@ export class AddGroupPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService : StorageService) {
 
-    this.platform.ready().then(() => {
+   /* this.platform.ready().then(() => {
       this.database = new SQLite();
       this.database.openDatabase({name: "data.db", location: "default"}).then(() => {
         this.refresh();
@@ -28,7 +25,7 @@ export class AddGroupPage {
         console.log("ERROR constructor: ", error);
       });
     });
-
+*/
   }
 
   showToast(message, position) {
@@ -43,7 +40,7 @@ export class AddGroupPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddGroupPage');
   }
-  public refresh(){
+ /* public refresh(){
     this.database.executeSql("SELECT * FROM grupa", []).then((data) => {
       this.grupa = [];
       if (data.rows.length > 0) {
@@ -59,19 +56,11 @@ export class AddGroupPage {
 
     });
   }
+*/
 
-
-  addGroup(){
-
-    this.database.executeSql("INSERT INTO grupa(group_name, id_user) VALUES ('"+this.group_name +"','"+this.storageService.id_user+"')", []).then((data) => {
-      console.log("INSERTED: " + JSON.stringify(data));
-
-      this.showToast('INSERTED group','top');
-      this.navCtrl.push(AddWordPage);
-
-    }, (error) => {
-      console.log("ERROR add: " + JSON.stringify(error.err));
-    });
+  addGroup(group_name){
+    this.storageService.addGroupService(this.group_name);
+    this.navCtrl.push(MyGroupPage);
 
   }
 

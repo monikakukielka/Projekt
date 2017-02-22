@@ -12,7 +12,8 @@ import { TestPage } from "../pages/test/test";
 import {TabsPage} from '../pages/tabs/tabs';
 import { MyGroupPage } from '../pages/my-group/my-group';
 import {TabsMyGroupPage} from "../pages/tabs-my-group/tabs-my-group";
-
+import {WordsViewPage} from "../pages/words-view/words-view";
+import { LearnWordsPage } from "../pages/learn-words/learn-words";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,9 @@ import {TabsMyGroupPage} from "../pages/tabs-my-group/tabs-my-group";
     ExampleWordsPage,
     TabsPage,
     MyGroupPage,
-    TabsMyGroupPage
+    TabsMyGroupPage,
+    WordsViewPage,
+    LearnWordsPage
 
   ],
   imports: [
@@ -44,7 +47,9 @@ import {TabsMyGroupPage} from "../pages/tabs-my-group/tabs-my-group";
     ExampleWordsPage,
     TabsPage,
     MyGroupPage,
-    TabsMyGroupPage
+    TabsMyGroupPage,
+    WordsViewPage,
+    LearnWordsPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler }, StorageService]
 })
