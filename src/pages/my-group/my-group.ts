@@ -20,7 +20,11 @@ export class MyGroupPage {
   public grupa: Array<Object>;
   public builtInGroups: Array<Grupa>;
   public myGroups: Array<Grupa>;
+  public editGroups: Array<Grupa>;
   public toDelete: boolean=false;
+  public toEdit: boolean=false;
+  public group_name: String='';
+  public id_group_s: Number=0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService:StorageService) {
 
@@ -29,9 +33,11 @@ export class MyGroupPage {
     this.storageService.subject.subscribe((value) => {
       console.log("Reload db "); // Subscription wont get
       this.myGroups=[];
+
          // anything at this point
       this.loadMyGroups();
     });
+
     console.log("my group constructor");
     this.platform.ready().then(() => {
       this.database = new SQLite();
@@ -62,7 +68,20 @@ export class MyGroupPage {
 
   itemSelected(id:number){
     if(this.toDelete){
+      console.log("TO DELETE item selected");
       this.myGroups[id].to_delete=true;
+    }
+  }
+
+  editGroupSecleted(id:number) {
+    if (this.toEdit) {
+      for (let i = 0; i < this.myGroups.length; i++) {
+        if (this.myGroups[i].id == this.myGroups[id].id) {
+          this.myGroups[i].to_edit = true;
+        } else {
+          this.myGroups[i].to_edit = false;
+        }
+      }
     }
   }
 
@@ -70,6 +89,7 @@ export class MyGroupPage {
 
     for(let i = 0; i < this.myGroups.length; i++) {
       if(this.myGroups[i].to_delete){
+        console.log("Id grupy do usuniecie:  "+this.myGroups[i].id);
         //tu robie kasowanie z bazuy
         this.storageService.deleteGroup(this.myGroups[i].id);
       }
@@ -77,20 +97,49 @@ export class MyGroupPage {
     }
   }
 
-goToWordsView(){
-  this.navCtrl.push(WordsViewPage);
-}
-
-removeGroup(){
-
-  if(this.toDelete){
-    this.skasuj();
-    this.toDelete =false;
-
-  }else{
-    this.toDelete=true;
+  goToWordsView(){
+    this.navCtrl.push(WordsViewPage);
   }
-}
+
+
+
+  removeGroup(){
+
+    if(this.toDelete){
+      this.skasuj();
+      this.toDelete =false;
+
+    }else{
+      this.toDelete=true;
+    }
+  }
+
+
+
+  goToEditGroup() {
+    console.log("Weszłem w edycje");
+    if (this.toEdit) {
+
+      console.log("Dlugość  my groups " + this.myGroups.length);
+      for (let i = 0; i < this.myGroups.length; i++) {
+
+        console.log(" GRUPA TO EDIT " + this.myGroups[i].to_edit);
+        if (this.myGroups[i].to_edit) {
+          this.storageService.id_group_s=this.myGroups[i].id;
+
+          this.navCtrl.push(EditGroupPage);
+          //  }
+        }
+        this.toEdit = false;
+      }
+    }
+    else{
+        this.toEdit = true;
+        //}
+      }
+
+    }
+
 
 loadMyGroups(){
   console.log("log my groups");

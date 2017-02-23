@@ -1,4 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
+import { FormsModule }   from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
@@ -14,6 +16,7 @@ import { MyGroupPage } from '../pages/my-group/my-group';
 import {TabsMyGroupPage} from "../pages/tabs-my-group/tabs-my-group";
 import {WordsViewPage} from "../pages/words-view/words-view";
 import { LearnWordsPage } from "../pages/learn-words/learn-words";
+import { EditGroupPage } from "../pages/edit-group/edit-group";
 
 @NgModule({
   declarations: [
@@ -29,11 +32,14 @@ import { LearnWordsPage } from "../pages/learn-words/learn-words";
     MyGroupPage,
     TabsMyGroupPage,
     WordsViewPage,
-    LearnWordsPage
+    LearnWordsPage,
+    EditGroupPage
 
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    ReactiveFormsModule,
+    FormsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -49,7 +55,8 @@ import { LearnWordsPage } from "../pages/learn-words/learn-words";
     MyGroupPage,
     TabsMyGroupPage,
     WordsViewPage,
-    LearnWordsPage
+    LearnWordsPage,
+    EditGroupPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler }, StorageService]
 })

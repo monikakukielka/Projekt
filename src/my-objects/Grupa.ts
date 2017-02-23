@@ -7,6 +7,7 @@ export class Grupa {
   public built_in: number;
   public id_user: number;
   public to_delete: boolean=false;
+  public to_edit: boolean=false;
   constructor(){
 
   }

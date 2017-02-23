@@ -11,6 +11,8 @@ export class StorageService {
   public database: SQLite;
   public id_word_en: number=0;
   public subject = new Subject();
+  public id_group: number=0;
+  public id_group_s: number=0;
 
 constructor (public platform: Platform){
 
@@ -101,12 +103,12 @@ addGroupService(group_name){
   });
 }
 
-  deleteGroup(id:Number){
+  deleteGroup(id:Number) {
     this.database.openDatabase({name: "data.db", location: "default"}).then(() => {
 
-      console.log("Id_usera: "+ this.id_user);
-      console.log("Nazwa grupy"+id);
-      this.database.executeSql("DELETE FROM grupa WHERE id='"+id +"'", []).then((data) => {
+      console.log("Id_usera: " + this.id_user);
+      console.log("Nazwa grupy" + id);
+      this.database.executeSql("DELETE FROM grupa WHERE id='" + id + "'", []).then((data) => {
         console.log("DELETED: " + JSON.stringify(data));
         //this.showToast('INSERTED group','top');
         this.subject.next("");
@@ -117,17 +119,44 @@ addGroupService(group_name){
     }, (error) => {
       console.log("ERROR constructor: ", error);
     });
-    /*
-    console.log("Id_usera: "+ this.id_user);
-    console.log("Nazwa grupy"+group_name);
-    this.database.executeSql("DELETE FROM grupa WHERE group_name='"+group_name +"' AND user_id='"+this.id_user+"'", []).then((data) => {
-      console.log("DELETED: " + JSON.stringify(data));
-      //this.showToast('INSERTED group','top');
-    }, (error) => {
-      console.log("ERROR deleting grouo: " + JSON.stringify(error.err));
-    });
-    */
+
   }
+
+
+
+  editGroup(id:Number, group_name){
+    this.database.executeSql("UPDATE grupa SET group_name = '"+group_name+"' WHERE id='"+ id +"'",[]).then((data) =>{
+      console.log("UPDATED: " + JSON.stringify(data));
+    },(error) => {
+      console.log("Error updating group" + JSON.stringify(error.err));
+    });
+
+  }
+
+  selectGroup(group_name){
+    this.database.executeSql("SELECT id FROM grupa where group_name='"+group_name+"'",[]).then((data) =>{
+      this.id_group=data.rows.item(0).id;
+      return this.id_group;
+    },(error) =>
+    {
+      console.log("Nie wybrano grupy");
+    });
+  }
+
+
+
+
+  /*
+  console.log("Id_usera: "+ this.id_user);
+  console.log("Nazwa grupy"+group_name);
+  this.database.executeSql("DELETE FROM grupa WHERE group_name='"+group_name +"' AND user_id='"+this.id_user+"'", []).then((data) => {
+    console.log("DELETED: " + JSON.stringify(data));
+    //this.showToast('INSERTED group','top');
+  }, (error) => {
+    console.log("ERROR deleting grouo: " + JSON.stringify(error.err));
+  });
+  */
+
 
 
 /*
