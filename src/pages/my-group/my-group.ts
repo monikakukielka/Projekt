@@ -25,6 +25,7 @@ export class MyGroupPage {
   public toEdit: boolean=false;
   public group_name: String='';
   public id_group_s: Number=0;
+  public id_group_selected: number=0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService:StorageService) {
 
@@ -97,8 +98,15 @@ export class MyGroupPage {
     }
   }
 
-  goToWordsView(){
-    this.navCtrl.push(WordsViewPage);
+  goToWordsView(id:number) {
+
+
+    //for (let i = 0; i < this.myGroups.length; i++) {
+      this.storageService.id_group_selected=this.myGroups[id].id;
+      //this.storageService.selectGroup(this.group_name);
+      console.log("NAZWA GRUPY: " + this.myGroups[id].id);
+      this.navCtrl.push(WordsViewPage);
+    //}
   }
 
 

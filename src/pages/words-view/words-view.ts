@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {EditGroupPage} from "../edit-group/edit-group";
+import {ManageWordsPage} from "../manage-words/manage-words";
 
 /*
   Generated class for the WordsView page.
@@ -24,5 +25,8 @@ export class WordsViewPage {
     this.navCtrl.push(EditGroupPage);
   }
 
+  goToManageTools(){
+    this.navCtrl.push(ManageWordsPage);
+  }
 
 }

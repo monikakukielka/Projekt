@@ -1,12 +1,8 @@
-<head>
-  <meta charset="UTF-8">
-</head>
 <ion-header color="primary">
-
-  <ion-navbar color="primary" >
-    <ion-title color="primary" >FISZKI</ion-title>
-
-
+  <ion-navbar color="primary">
+    <ion-title color="primary">
+      Fiszki
+    </ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -31,7 +27,7 @@
   </ion-item>
 
   <ion-item>
-    <button large ion-button color="secondary" round>
+    <button large ion-button color="secondary" (click)="goToManageTools()"round>
       <ion-icon name="settings">
         Administracja słów
       </ion-icon>
@@ -39,14 +35,6 @@
 
   </ion-item>
 
-  <ion-item>
-    <button large ion-button color="secondary" (click)="goToEdit()" round>
-      <ion-icon name="settings">
-        Edycja grupy
-      </ion-icon>
-    </button>
-
-  </ion-item>
 
 </ion-list>
 

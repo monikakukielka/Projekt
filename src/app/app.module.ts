@@ -17,6 +17,7 @@ import {TabsMyGroupPage} from "../pages/tabs-my-group/tabs-my-group";
 import {WordsViewPage} from "../pages/words-view/words-view";
 import { LearnWordsPage } from "../pages/learn-words/learn-words";
 import { EditGroupPage } from "../pages/edit-group/edit-group";
+import { ManageWordsPage } from "../pages/manage-words/manage-words";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { EditGroupPage } from "../pages/edit-group/edit-group";
     TabsMyGroupPage,
     WordsViewPage,
     LearnWordsPage,
-    EditGroupPage
+    EditGroupPage,
+    ManageWordsPage
 
   ],
   imports: [
@@ -56,7 +58,8 @@ import { EditGroupPage } from "../pages/edit-group/edit-group";
     TabsMyGroupPage,
     WordsViewPage,
     LearnWordsPage,
-    EditGroupPage
+    EditGroupPage,
+    ManageWordsPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler }, StorageService]
 })
