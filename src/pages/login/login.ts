@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-
 import {NavController, Platform, NavParams} from 'ionic-angular';
-
 import { Signup } from '../signup/signup';
-import { MainPage } from '../main/main';
-import {SQLite, Splashscreen, StatusBar, Toast} from 'ionic-native';
+import {SQLite, Toast} from 'ionic-native';
 import {StorageService} from "../../app/storage.service";
 import { TabsPage} from "../tabs/tabs";
 
@@ -19,7 +16,6 @@ export class LoginPage {
   public password: String = '';
   public database: SQLite;
   public user: Array<Object>;
-  private id_var;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService: StorageService) {
 

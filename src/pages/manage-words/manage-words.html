@@ -11,10 +11,10 @@
 
   <ion-list radio-group>
 
-    <ion-item *ngFor="let item of myGroups;let i = index;" (click)="itemSelected(i)">
-      <ion-label><button ion-button clear> {{ item.word_en_name }} - {{item.word_pl_name}} </button> </ion-label>
+    <ion-item *ngFor="let item of myWords_translations;let i = index;" (click)="itemWordSelected(i)">
+      <ion-label><button ion-button clear>{{item.word_en_name}}-{{item.word_pl_name}}</button> </ion-label>
       <ion-checkbox checked={{item.to_delete}} [class.show]="toDelete" [class.hide]="!toDelete"  [(ngModel)]="item.to_delete"></ion-checkbox> <!--tylko wtedy jak nacisne to delete-->
-      <ion-radio checked={{item.to_edit}} (click)="editGroupSecleted(i)" [class.show]="toEdit" [class.hide]="!toEdit" [(ngModel)]="item.to_edit" ngDefaultControl></ion-radio> <!-- tylko wtedy jak edytuje-->
+      <ion-radio checked={{item.to_edit}} (click)="editWordSecleted(i)" [class.show]="toEdit" [class.hide]="!toEdit" [(ngModel)]="item.to_editit" ngDefaultControl></ion-radio> <!-- tylko wtedy jak edytuje-->
     </ion-item>
 
 
@@ -26,16 +26,16 @@
   <ion-toolbar>
 
     <ion-buttons>
-      <button [class.show]="!toDelete" [class.hide]="toDelete" ion-button icon-only class="addButton" color="royal" (click)="goToAddWord()">
+      <button [class.show]="!toDel" [class.hide]="toDel" ion-button icon-only class="addButton" color="royal" (click)="goToAddWord()">
         <ion-icon name="add"></ion-icon>
       </button>
 
 
-      <button  [class.show]="!toDelete"  [class.hide]="toDelete" (click)="goToEditGroup()" ion-button icon-only class="editButton" align="center" color="royal">
+      <button  [class.show]="!toDel"  [class.hide]="toDel" (click)="goToEditWord()" ion-button icon-only class="editButton" align="center" color="royal">
         <ion-icon name="create"></ion-icon>
       </button>
 
-      <button ion-button icon-only class="removeButton" color="royal" (click)="removeGroup()">
+      <button ion-button icon-only class="removeButton" color="royal" (click)="removeWord()">
         <ion-icon name="trash"></ion-icon>
       </button>
     </ion-buttons>

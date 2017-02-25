@@ -4,6 +4,10 @@ import {Platform} from "ionic-angular";
 import {SQLite} from "ionic-native";
 import { LoginPage } from '../pages/login/login';
 import {Subject} from "rxjs";
+import {Group_translation} from "../my-objects/Group_translation";
+import {Translation} from "../my-objects/Translation";
+import {Word_en} from "../my-objects/Word_en";
+import {Word_pl} from "../my-objects/Word_pl";
 
 @Injectable()
 export class StorageService {
@@ -14,6 +18,10 @@ export class StorageService {
   public id_group: number=0;
   public id_group_s: number=0;
   public id_group_selected: number = 0;
+  public word_en_name: string='';
+  public word_pl_name: string='';
+  public myWords_en: Array<Word_en>;
+  public myWords_pl: Array<Word_pl>;
 
   constructor (public platform: Platform){
 
@@ -149,17 +157,90 @@ export class StorageService {
   }
 
 
-  selectWord(){
-    this.database.executeSql("SELECT  id_translation FROM group_translation where id_group='"+this.id_group_selected+"'",[]).then((data) =>{
 
-    }
-
+  deleteWord(id:Number){
+    this.database.executeSql("DELETE FROM translation WHERE id='" + id + "'", []).then((data) => {
+      console.log("DELETED: " + JSON.stringify(data));
+      //this.showToast('INSERTED group','top');
+      this.subject.next("");
+    }, (error) => {
+      console.log("ERROR deleting word: " + JSON.stringify(error.err));
+    });
   }
 
 
 
 
 
+/*
+
+  selectWord(){
+    this.myWords_en=[];
+    this.myWords_pl=[];
+
+    var id_translation: Array<Object>;
+    id_translation=[];
+    console.log("Id group_selected  "+this.id_group_selected);
+    this.database.executeSql("SELECT * FROM group_translation WHERE id_group='"+ this.id_group_selected +"'",[]).then((data) =>{
+
+      console.log("Id tłumaczenia z grup_translation "+data.rows.item(0).id);
+      if(data.rows.length > 0) {
+        for(let i=0; i<data.rows.length;i++)
+        {
+         // console.log(JSON.stringify(data.rows.item(i)));
+
+          let myGroupTranslation: Group_translation=new Group_translation();
+          myGroupTranslation.id_translation=data.rows.item(i).id_translation;
+          myGroupTranslation.id_group=data.rows.item(i).id_group;
+
+          console.log("Id tłumaczenia z grup_translation "+data.rows.item(i).id_translation);
+
+          this.database.executeSql("SELECT id_word_en, id_word_pl FROM translation WHERE id='"+data.rows.item(i).id_translation+"'",[]).then((data) =>{
+            let myTranslation: Translation=new Translation();
+            myTranslation.id_word_pl=data.rows.item(0).id_word_pl;
+            myTranslation.id_word_en=data.rows.item(0).id_word_en;
+
+            console.log("Id słowa polskiego "+data.rows.item(0).id_word_pl);
+            console.log("Id słowa angielskiego "+data.rows.item(0).id_word_en);
+
+            this.database.executeSql("SELECT word_en_name FROM word_en WHERE id='"+data.rows.item(0).id_word_en+"'",[]).then((data) =>{
+              let myWord_en: Word_en=new Word_en();
+              myWord_en.word_en_name=data.rows.item(0).word_en_name;
+              this.myWords_en.push(myWord_en);
+
+                    console.log("Słowo angielskie "+data.rows.item(0).word_en_name);
+
+            },(error) =>{
+              console.log("Błąd z pobraniem słowa angielskiego ")
+            });
+
+            this.database.executeSql("SELECT word_pl_name FROM word_pl WHERE id='"+data.rows.item(0).id_word_pl+"'",[]).then((data) =>{
+              let myWord_pl: Word_pl=new Word_pl();
+              myWord_pl.word_pl_name=data.rows.item(0).word_pl_name;
+              this.myWords_pl.push(myWord_pl);
+              console.log("Słowo polskie "+data.rows.item(0).word_pl_name);
+            },(error) =>{
+              console.log("Błąd z pobraniem słowa polskiego ")
+            });
+
+          },(error) => {
+            console.log("Błąd z pobraniem id_word_en i id_word_pl from translation");
+          });
+
+        }
+
+      }
+      //
+
+    }, (error)=>{
+      console.log("Bład z selectem id_translation"+ JSON.stringify(error.err));
+    });
+  }
+
+
+
+
+*/
 
 
   /*

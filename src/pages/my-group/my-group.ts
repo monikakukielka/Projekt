@@ -20,7 +20,7 @@ export class MyGroupPage {
   public grupa: Array<Object>;
   public builtInGroups: Array<Grupa>;
   public myGroups: Array<Grupa>;
-  public editGroups: Array<Grupa>;
+
   public toDelete: boolean=false;
   public toEdit: boolean=false;
   public group_name: String='';

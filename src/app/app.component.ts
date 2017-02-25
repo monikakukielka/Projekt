@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import {StatusBar, Splashscreen, SQLite, Toast} from 'ionic-native';
-
+import { StatusBar, SQLite, Toast } from 'ionic-native';
 import { LoginPage } from '../pages/login/login';
 
 
