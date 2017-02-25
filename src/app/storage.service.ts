@@ -2,12 +2,9 @@
 import { Injectable } from '@angular/core';
 import {Platform} from "ionic-angular";
 import {SQLite} from "ionic-native";
-import { LoginPage } from '../pages/login/login';
+
 import {Subject} from "rxjs";
-import {Group_translation} from "../my-objects/Group_translation";
-import {Translation} from "../my-objects/Translation";
-import {Word_en} from "../my-objects/Word_en";
-import {Word_pl} from "../my-objects/Word_pl";
+
 
 @Injectable()
 export class StorageService {
@@ -20,9 +17,14 @@ export class StorageService {
   public id_group_selected: number = 0;
   public word_en_name: string='';
   public word_pl_name: string='';
-  public myWords_en: Array<Word_en>;
-  public myWords_pl: Array<Word_pl>;
   public id_translation_s:number=0;
+  public word_en_name_s:string='';
+  public word_pl_name_s: string=''
+  public sentence_en_s: string='';
+  public sentence_pl_s: string='';
+  public id_word_pl_s: number=0;
+  public id_word_en_s: number=0;
+
   constructor (public platform: Platform){
 
     this.platform.ready().then(() => {
@@ -169,6 +171,17 @@ export class StorageService {
   }
 
 
+  updateWord(word_en_name, word_pl_name, sentence_en, sentence_pl, id_word_en, id_word_pl){
+    this.database.executeSql("UPDATE word_en SET word_en_name='"+word_en_name+"', sentence_en='"+sentence_en+"' WHERE id='" + id_word_en + "'", []).then((data) => {
+    },(error) => {
+      console.log("Błąd z updatem word_en"+ JSON.stringify(error));
+    });
+
+    this.database.executeSql("UPDATE word_pl SET word_pl_name='"+word_pl_name+"', sentence_en='"+sentence_pl+"' WHERE id='" + id_word_pl + "'", []).then((data) => {
+    },(error) => {
+      console.log("Błąd z updatem word_pl"+ JSON.stringify(error));
+    });
+  }
 
 
 

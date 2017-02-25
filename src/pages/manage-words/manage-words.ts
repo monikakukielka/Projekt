@@ -196,18 +196,28 @@ export class ManageWordsPage {
 
 
   selectWords(grupaId:number){
-    this.database.executeSql("SELECT word_pl_name, word_en_name, translation.id FROM translation JOIN word_pl ON word_pl.id = translation.id_word_pl JOIN word_en ON word_en.id =translation.id_word_en JOIN group_translation ON group_translation.id_translation=translation.id JOIN grupa ON grupa.id = group_translation.id_group WHERE grupa.id='"+grupaId+"'",[]).then((data) =>{
+    this.database.executeSql("SELECT word_pl_name, word_en_name, translation.id, sentence_en, sentence_pl, word_en.id, word_pl.id FROM translation JOIN word_pl ON word_pl.id = translation.id_word_pl JOIN word_en ON word_en.id =translation.id_word_en JOIN group_translation ON group_translation.id_translation=translation.id JOIN grupa ON grupa.id = group_translation.id_group WHERE grupa.id='"+grupaId+"'",[]).then((data) =>{
 
       console.log("Jakis tekst na poczatku "+ JSON.stringify(data.rows));
       if(data.rows.length>0) {
         for(let i=0;i<data.rows.length;i++) {
           let myWords_translation: Words_translation=new Words_translation();
           myWords_translation.word_pl_name=data.rows.item(i).word_pl_name;
+          this.storageService.word_pl_name_s=myWords_translation.word_pl_name;
           myWords_translation.word_en_name=data.rows.item(i).word_en_name;
+          this.storageService.word_en_name_s=myWords_translation.word_en_name;
           myWords_translation.id_translation=data.rows.item(i).id;
+          myWords_translation.sentence_en=data.rows.item(i).sentence_en;
+          this.storageService.sentence_en_s=myWords_translation.sentence_en;
+          myWords_translation.sentence_pl=data.rows.item(i).sentence_pl;
+          this.storageService.sentence_pl_s=myWords_translation.sentence_pl;
+          myWords_translation.id_word_pl=data.rows.item(i).id;
+          this.storageService.id_word_pl_s=myWords_translation.id_word_pl;
+          myWords_translation.id_word_en=data.rows.item(i).id;
+          this.storageService.id_word_en_s=myWords_translation.id_word_en;
           this.myWords_translations.push(myWords_translation);
-          console.log("Słowo polskie "+data.rows.item(i).word_pl_name);
-          console.log("Słowo angielskie: "+ data.rows.item(i).word_en_name);
+          console.log("Słowo polskie id: "+myWords_translation.id_word_pl);
+          console.log("Słowo angielskie id: "+myWords_translation.id_word_en);
           console.log("Id translacji "+ data.rows.item(i).id);
         }
       }
