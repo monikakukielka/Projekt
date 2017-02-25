@@ -142,9 +142,9 @@ export class MyGroupPage {
       }
     }
     else{
-        this.toEdit = true;
-        //}
-      }
+      this.toEdit = true;
+      //}
+    }
 
     }
 

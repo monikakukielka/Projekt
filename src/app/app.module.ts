@@ -18,6 +18,7 @@ import {WordsViewPage} from "../pages/words-view/words-view";
 import { LearnWordsPage } from "../pages/learn-words/learn-words";
 import { EditGroupPage } from "../pages/edit-group/edit-group";
 import { ManageWordsPage } from "../pages/manage-words/manage-words";
+import { EditWordPage } from "../pages/edit-word/edit-word";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ManageWordsPage } from "../pages/manage-words/manage-words";
     WordsViewPage,
     LearnWordsPage,
     EditGroupPage,
-    ManageWordsPage
+    ManageWordsPage,
+    EditWordPage
 
   ],
   imports: [
@@ -59,7 +61,8 @@ import { ManageWordsPage } from "../pages/manage-words/manage-words";
     WordsViewPage,
     LearnWordsPage,
     EditGroupPage,
-    ManageWordsPage
+    ManageWordsPage,
+    EditWordPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler }, StorageService]
 })

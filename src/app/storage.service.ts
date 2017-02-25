@@ -22,7 +22,7 @@ export class StorageService {
   public word_pl_name: string='';
   public myWords_en: Array<Word_en>;
   public myWords_pl: Array<Word_pl>;
-
+  public id_translation_s:number=0;
   constructor (public platform: Platform){
 
     this.platform.ready().then(() => {

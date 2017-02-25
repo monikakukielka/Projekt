@@ -8,6 +8,7 @@ import {Group_translation} from "../../my-objects/Group_translation";
 import {Translation} from "../../my-objects/Translation";
 import {SQLite} from "ionic-native";
 import {Words_translation} from "../../my-objects/Words_translation";
+import {EditWordPage} from "../edit-word/edit-word";
 
 
 @Component({
@@ -86,6 +87,43 @@ export class ManageWordsPage {
 
     }else{
       this.toDelete=true;
+    }
+
+  }
+
+  editWordSecleted(id:number){
+    if (this.toEdit) {
+     // for (let i = 0; i < this.myWords_translations.length; i++) {
+      //  if (this.myWords_translations[i].id_translation == this.myWords_translations[id].id_translation) {
+          this.myWords_translations[id].to_edit = true;
+        } else {
+          this.myWords_translations[id].to_edit = false;
+       }
+      //}
+    //}
+  }
+
+
+  goToEditWord(){
+    console.log("Weszłem w edycje słowa");
+    if (this.toEdit) {
+
+      console.log("Dlugość  my translation " + this.myWords_translations.length);
+      for (let i = 0; i < this.myWords_translations.length; i++) {
+
+        console.log(" Translation to edit " + this.myWords_translations[i].to_edit);
+        if (this.myWords_translations[i].to_edit) {
+          this.storageService.id_translation_s=this.myWords_translations[i].id_translation;
+
+          this.navCtrl.push(EditWordPage);
+          //  }
+        }
+        this.toEdit = false;
+      }
+    }
+    else{
+      this.toEdit = true;
+      //}
     }
 
   }
