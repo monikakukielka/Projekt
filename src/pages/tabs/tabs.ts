@@ -16,7 +16,7 @@ export class TabsPage {
   tab2Root= MyGroupPage;
   constructor(public navCtrl: NavController, public navParams: NavParams, public navigationService: NavigationService) {
 
-    this.navigationService.subject.subscribe((value) => {
+    this.navigationService.editGroupSubject.subscribe((value) => {
       console.log("Subscription got", value); // Subscription wont get
                                               // anything at this point
       this.navCtrl.push(value);

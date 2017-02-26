@@ -9,7 +9,8 @@ import {Subject} from "rxjs";
 
 @Injectable()
 export class NavigationService {
-  subject = new Subject();
+  editGroupSubject = new Subject();
+  createNewGroupSubject = new Subject();
 
   constructor (){}
 

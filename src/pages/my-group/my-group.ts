@@ -68,7 +68,9 @@ export class MyGroupPage {
     );
   }
   goToAddGroup(){
-    this.navCtrl.push(AddGroupPage);
+    //this.navCtrl.push(AddGroupPage);
+    this.navigationService.editGroupSubject.next(AddGroupPage);
+
   }
 
   itemSelected(id:number){
@@ -109,7 +111,8 @@ export class MyGroupPage {
       this.storageService.id_group_selected=this.myGroups[id].id;
       //this.storageService.selectGroup(this.group_name);
       console.log("NAZWA GRUPY: " + this.myGroups[id].id);
-      this.navCtrl.push(WordsViewPage);
+    this.navigationService.editGroupSubject.next(WordsViewPage);
+     // this.navCtrl.push(WordsViewPage);
     //}
   }
 
@@ -142,7 +145,7 @@ export class MyGroupPage {
          // this.navCtrl.push(EditGroupPage);
           console.log("This notify emit");
          // this.notify.emit('Click from nested component');
-          this.navigationService.subject.next(EditGroupPage);
+          this.navigationService.editGroupSubject.next(EditGroupPage);
 
           //  }
         }
