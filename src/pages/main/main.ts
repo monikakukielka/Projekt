@@ -4,6 +4,8 @@ import { ExampleWordsPage } from '../example-words/example-words';
 import { AddGroupPage } from '../add-group/add-group';
 import {AddWordPage} from "../add-word/add-word";
 import {LearnWordsPage} from "../learn-words/learn-words";
+import {NavigationService} from "../../app/navigation.service";
+import {EditGroupPage} from "../edit-group/edit-group";
 /*
   Generated class for the Main page.
 
@@ -17,7 +19,9 @@ import {LearnWordsPage} from "../learn-words/learn-words";
 })
 export class MainPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, public navigationService: NavigationService) {
+
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MainPage');

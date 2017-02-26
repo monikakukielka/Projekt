@@ -17,33 +17,31 @@ import {EditWordPage} from "../edit-word/edit-word";
 })
 export class ManageWordsPage {
   public database: SQLite;
-  public myWords_en: Array<Word_en>;
-  public myWords_pl: Array<Word_pl>;
   public toDelete: boolean=false;
   public toEdit: boolean=false;
-  public myWords_translations:Array<Words_translation> = [];
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService:StorageService) {
     this.storageService.subject.subscribe((value) => {
-      console.log("Reload db "); // Subscription wont get
-      this.myWords_translations=[];
-
-      // anything at this point
-      this.selectWords(this.storageService.id_group_selected);
+      console.log("Reload db "); // Subscription wont ge
+      this.storageService.selectWords(this.storageService.id_group_selected);
     });
 
     console.log("my group constructor");
-    this.platform.ready().then(() => {
+    this.storageService.selectWords(this.storageService.id_group_selected);
+    /*this.platform.ready().then(() => {
       this.database = new SQLite();
       this.database.openDatabase({name: "data.db", location: "default"}).then(() => {
         console.log("Open database my group");
         //this.refresh();
        // this.loadMyGroups();
-         this.selectWords(this.storageService.id_group_selected);
+         //this.selectWords(this.storageService.id_group_selected);
+        this.storageService.selectWords(this.storageService.id_group_selected);
       }, (error) => {
         console.log("ERROR constructor: ", error);
       });
     });
+    */
   }
 
 
@@ -70,11 +68,11 @@ export class ManageWordsPage {
 
   skasujWord(){
 
-    for(let i = 0; i < this.myWords_translations.length; i++) {
-      if(this.myWords_translations[i].to_delete){
-        console.log("Id grupy do usuniecie:  "+this.myWords_translations[i].id_translation);
+    for(let i = 0; i < this.storageService.groupWordsTranslations.length; i++) {
+      if(this.storageService.groupWordsTranslations[i].to_delete){
+        console.log("Id grupy do usuniecie:  "+this.storageService.groupWordsTranslations[i].id_translation);
         //tu robie kasowanie z bazuy
-        this.storageService.deleteWord(this.myWords_translations[i].id_translation);
+        this.storageService.deleteWord(this.storageService.groupWordsTranslations[i].id_translation);
       }
 
     }
@@ -93,14 +91,17 @@ export class ManageWordsPage {
 
   editWordSecleted(id:number){
     if (this.toEdit) {
-     // for (let i = 0; i < this.myWords_translations.length; i++) {
-      //  if (this.myWords_translations[i].id_translation == this.myWords_translations[id].id_translation) {
-          this.myWords_translations[id].to_edit = true;
+      for (let i = 0; i < this.storageService.groupWordsTranslations.length; i++) {
+        console.log("Edit word selected ");
+        if (this.storageService.groupWordsTranslations[i].id_translation == id) {
+          console.log("Edit word selected true");
+          this.storageService.groupWordsTranslations[i].to_edit = true;
         } else {
-          this.myWords_translations[id].to_edit = false;
+          console.log("Edit word selected false");
+          this.storageService.groupWordsTranslations[i].to_edit = false;
        }
-      //}
-    //}
+      }
+    }
   }
 
 
@@ -108,12 +109,12 @@ export class ManageWordsPage {
     console.log("Weszłem w edycje słowa");
     if (this.toEdit) {
 
-      console.log("Dlugość  my translation " + this.myWords_translations.length);
-      for (let i = 0; i < this.myWords_translations.length; i++) {
+      console.log("Dlugość  my translation " + this.storageService.groupWordsTranslations.length);
+      for (let i = 0; i <this.storageService.groupWordsTranslations.length; i++) {
 
-        console.log(" Translation to edit " + this.myWords_translations[i].to_edit);
-        if (this.myWords_translations[i].to_edit) {
-          this.storageService.id_translation_s=this.myWords_translations[i].id_translation;
+        console.log(" Translation to edit " + this.storageService.groupWordsTranslations[i].to_edit);
+        if (this.storageService.groupWordsTranslations[i].to_edit) {
+          this.storageService.words_translation_to_edit=this.storageService.groupWordsTranslations[i];
 
           this.navCtrl.push(EditWordPage);
           //  }
@@ -193,9 +194,10 @@ export class ManageWordsPage {
   }
 
 */
-
-
+/*
+//pobieranie danych z bazy
   selectWords(grupaId:number){
+    var sWT:Array<Words_translation> =[];
     this.database.executeSql("SELECT word_pl_name, word_en_name, translation.id, sentence_en, sentence_pl, word_en.id, word_pl.id FROM translation JOIN word_pl ON word_pl.id = translation.id_word_pl JOIN word_en ON word_en.id =translation.id_word_en JOIN group_translation ON group_translation.id_translation=translation.id JOIN grupa ON grupa.id = group_translation.id_group WHERE grupa.id='"+grupaId+"'",[]).then((data) =>{
 
       console.log("Jakis tekst na poczatku "+ JSON.stringify(data.rows));
@@ -203,35 +205,34 @@ export class ManageWordsPage {
         for(let i=0;i<data.rows.length;i++) {
           let myWords_translation: Words_translation=new Words_translation();
           myWords_translation.word_pl_name=data.rows.item(i).word_pl_name;
-          this.storageService.word_pl_name_s=myWords_translation.word_pl_name;
+
+
           myWords_translation.word_en_name=data.rows.item(i).word_en_name;
-          this.storageService.word_en_name_s=myWords_translation.word_en_name;
+
           myWords_translation.id_translation=data.rows.item(i).id;
+
           myWords_translation.sentence_en=data.rows.item(i).sentence_en;
-          this.storageService.sentence_en_s=myWords_translation.sentence_en;
+
           myWords_translation.sentence_pl=data.rows.item(i).sentence_pl;
-          this.storageService.sentence_pl_s=myWords_translation.sentence_pl;
+
           myWords_translation.id_word_pl=data.rows.item(i).id;
-          this.storageService.id_word_pl_s=myWords_translation.id_word_pl;
+
           myWords_translation.id_word_en=data.rows.item(i).id;
-          this.storageService.id_word_en_s=myWords_translation.id_word_en;
-          this.myWords_translations.push(myWords_translation);
+
+          sWT.push(myWords_translation);
           console.log("Słowo polskie id: "+myWords_translation.id_word_pl);
           console.log("Słowo angielskie id: "+myWords_translation.id_word_en);
           console.log("Id translacji "+ data.rows.item(i).id);
+
         }
       }
-
+      return sWT;
     },(error) =>{
       console.log("Błąd z pobraniem słów z bazy "+JSON.stringify(error));
-
+      return sWT;
     });
 
   }
 
-
-
-
-
-
+*/
 }

@@ -10,12 +10,14 @@
 
 <ion-content padding>
 
+  <h3><pre>{{wordToshow}}</pre></h3>
+  <h3><pre> {{sentenceToShow}}</pre></h3>
+  <h3><pre>{{translationToShow}}</pre></h3>
+  <h3><pre> {{translationSentenceToShow}}</pre></h3>
+<button large class="translationButton" (click)="showTranslation()" ion-button>Tłumaczenie</button><br>
 
-
-<button large class="translationButton" ion-button>Tłumaczenie</button>
-
-  <button large class="nextWordButton" ion-button>Następne </button>
-
+  <button large class="nextWordButton" (click)="showNextWord()" ion-button>Następne </button>
+  <button large class="backWordButton" (click)="showBackWord()" ion-button>Poprzednie </button>
 </ion-content>
 
 

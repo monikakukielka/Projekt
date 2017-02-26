@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Output} from '@angular/core';
 import {NavController, NavParams, Platform} from 'ionic-angular';
 import {AddGroupPage} from "../add-group/add-group";
 import {EditGroupPage} from "../edit-group/edit-group";
@@ -7,6 +7,8 @@ import {Grupa} from "../../my-objects/Grupa";
 import {WordsViewPage} from "../words-view/words-view";
 import {StorageService} from "../../app/storage.service";
 import {Subject} from "rxjs";
+import {EventEmitter} from "@angular/common/src/facade/async";
+import {NavigationService} from "../../app/navigation.service";
 
 
 @Component({
@@ -27,7 +29,9 @@ export class MyGroupPage {
   public id_group_s: Number=0;
   public id_group_selected: number=0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService:StorageService) {
+  @Output() notify: EventEmitter<string> = new EventEmitter<string>();
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService:StorageService, private navigationService : NavigationService) {
 
 
 
@@ -135,7 +139,11 @@ export class MyGroupPage {
         if (this.myGroups[i].to_edit) {
           this.storageService.id_group_s=this.myGroups[i].id;
 
-          this.navCtrl.push(EditGroupPage);
+         // this.navCtrl.push(EditGroupPage);
+          console.log("This notify emit");
+         // this.notify.emit('Click from nested component');
+          this.navigationService.subject.next(EditGroupPage);
+
           //  }
         }
         this.toEdit = false;

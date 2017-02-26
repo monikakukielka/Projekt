@@ -28,7 +28,8 @@ export class EditGroupPage {
   editGroup(){
 
     this.storageService.editGroup(this.storageService.id_group_s, this.group_name);
-    this.navCtrl.push(MyGroupPage);
+    this.navCtrl.pop();
+    this.storageService.subject.next();
   }
 
 

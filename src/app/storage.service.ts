@@ -4,6 +4,7 @@ import {Platform} from "ionic-angular";
 import {SQLite} from "ionic-native";
 
 import {Subject} from "rxjs";
+import {Words_translation} from "../my-objects/Words_translation";
 
 
 @Injectable()
@@ -18,12 +19,9 @@ export class StorageService {
   public word_en_name: string='';
   public word_pl_name: string='';
   public id_translation_s:number=0;
-  public word_en_name_s:string='';
-  public word_pl_name_s: string=''
-  public sentence_en_s: string='';
-  public sentence_pl_s: string='';
-  public id_word_pl_s: number=0;
-  public id_word_en_s: number=0;
+  public words_translation_to_edit: Words_translation;
+  public groupWordsTranslations : Array<Words_translation>;
+  public showPolishWords: boolean=true;
 
   constructor (public platform: Platform){
 
@@ -149,7 +147,7 @@ export class StorageService {
   }
 
   selectGroup(group_name){
-    this.database.executeSql("SELECT id FROM grupa where group_name='"+group_name+"'",[]).then((data) =>{
+    this.database.executeSql("SELECT id FROM grupa where group_name='"+group_name+"' and id_user='" +this.id_user+"'",[]).then((data) =>{
       this.id_group_selected=data.rows.item(0).id;
       //return this.id_group;
     },(error) =>
@@ -170,136 +168,61 @@ export class StorageService {
     });
   }
 
+//edycja w bazie danych słowa
 
-  updateWord(word_en_name, word_pl_name, sentence_en, sentence_pl, id_word_en, id_word_pl){
-    this.database.executeSql("UPDATE word_en SET word_en_name='"+word_en_name+"', sentence_en='"+sentence_en+"' WHERE id='" + id_word_en + "'", []).then((data) => {
+  updateWord(wt:Words_translation){
+    this.database.executeSql("UPDATE word_en SET word_en_name='"+wt.word_en_name+"', sentence_en='"+wt.sentence_en+"' WHERE id='" + wt.id_word_en + "'", []).then((data) => {
     },(error) => {
       console.log("Błąd z updatem word_en"+ JSON.stringify(error));
     });
 
-    this.database.executeSql("UPDATE word_pl SET word_pl_name='"+word_pl_name+"', sentence_en='"+sentence_pl+"' WHERE id='" + id_word_pl + "'", []).then((data) => {
+    this.database.executeSql("UPDATE word_pl SET word_pl_name='"+wt.word_pl_name+"', sentence_pl='"+wt.sentence_pl+"' WHERE id='" + wt.id_word_pl + "'", []).then((data) => {
     },(error) => {
       console.log("Błąd z updatem word_pl"+ JSON.stringify(error));
     });
   }
 
 
+//pobieranie danych z bazy
+  selectWords(grupaId:number){
+    console.log("Id grupy selectW "+grupaId);
+    this.groupWordsTranslations =[];
+    this.database.executeSql("SELECT word_pl_name, word_en_name, translation.id, sentence_en, sentence_pl, word_en.id, word_pl.id FROM translation JOIN word_pl ON word_pl.id = translation.id_word_pl JOIN word_en ON word_en.id =translation.id_word_en JOIN group_translation ON group_translation.id_translation=translation.id JOIN grupa ON grupa.id = group_translation.id_group WHERE grupa.id='"+grupaId+"'",[]).then((data) =>{
 
-/*
+      console.log("Jakis tekst na poczatku "+ JSON.stringify(data.rows));
+      if(data.rows.length>0) {
+        for(let i=0;i<data.rows.length;i++) {
+          let myWords_translation: Words_translation=new Words_translation();
+          myWords_translation.word_pl_name=data.rows.item(i).word_pl_name;
+          console.log("!!!!!! "+myWords_translation.word_pl_name);
 
-  selectWord(){
-    this.myWords_en=[];
-    this.myWords_pl=[];
 
-    var id_translation: Array<Object>;
-    id_translation=[];
-    console.log("Id group_selected  "+this.id_group_selected);
-    this.database.executeSql("SELECT * FROM group_translation WHERE id_group='"+ this.id_group_selected +"'",[]).then((data) =>{
+          myWords_translation.word_en_name=data.rows.item(i).word_en_name;
 
-      console.log("Id tłumaczenia z grup_translation "+data.rows.item(0).id);
-      if(data.rows.length > 0) {
-        for(let i=0; i<data.rows.length;i++)
-        {
-         // console.log(JSON.stringify(data.rows.item(i)));
+          myWords_translation.id_translation=data.rows.item(i).id;
 
-          let myGroupTranslation: Group_translation=new Group_translation();
-          myGroupTranslation.id_translation=data.rows.item(i).id_translation;
-          myGroupTranslation.id_group=data.rows.item(i).id_group;
+          myWords_translation.sentence_en=data.rows.item(i).sentence_en;
 
-          console.log("Id tłumaczenia z grup_translation "+data.rows.item(i).id_translation);
+          myWords_translation.sentence_pl=data.rows.item(i).sentence_pl;
 
-          this.database.executeSql("SELECT id_word_en, id_word_pl FROM translation WHERE id='"+data.rows.item(i).id_translation+"'",[]).then((data) =>{
-            let myTranslation: Translation=new Translation();
-            myTranslation.id_word_pl=data.rows.item(0).id_word_pl;
-            myTranslation.id_word_en=data.rows.item(0).id_word_en;
+          myWords_translation.id_word_pl=data.rows.item(i).id;
 
-            console.log("Id słowa polskiego "+data.rows.item(0).id_word_pl);
-            console.log("Id słowa angielskiego "+data.rows.item(0).id_word_en);
+          myWords_translation.id_word_en=data.rows.item(i).id;
 
-            this.database.executeSql("SELECT word_en_name FROM word_en WHERE id='"+data.rows.item(0).id_word_en+"'",[]).then((data) =>{
-              let myWord_en: Word_en=new Word_en();
-              myWord_en.word_en_name=data.rows.item(0).word_en_name;
-              this.myWords_en.push(myWord_en);
-
-                    console.log("Słowo angielskie "+data.rows.item(0).word_en_name);
-
-            },(error) =>{
-              console.log("Błąd z pobraniem słowa angielskiego ")
-            });
-
-            this.database.executeSql("SELECT word_pl_name FROM word_pl WHERE id='"+data.rows.item(0).id_word_pl+"'",[]).then((data) =>{
-              let myWord_pl: Word_pl=new Word_pl();
-              myWord_pl.word_pl_name=data.rows.item(0).word_pl_name;
-              this.myWords_pl.push(myWord_pl);
-              console.log("Słowo polskie "+data.rows.item(0).word_pl_name);
-            },(error) =>{
-              console.log("Błąd z pobraniem słowa polskiego ")
-            });
-
-          },(error) => {
-            console.log("Błąd z pobraniem id_word_en i id_word_pl from translation");
-          });
+          this.groupWordsTranslations.push(myWords_translation);
+          console.log("Słowo polskie id: "+myWords_translation.id_word_pl);
+          console.log("Słowo angielskie id: "+myWords_translation.id_word_en);
+          console.log("Id translacji "+ data.rows.item(i).id);
 
         }
-
       }
-      //
 
-    }, (error)=>{
-      console.log("Bład z selectem id_translation"+ JSON.stringify(error.err));
-    });
-  }
+    },(error) =>{
+      console.log("Błąd z pobraniem słów z bazy "+JSON.stringify(error));
 
-
-
-
-*/
-
-
-  /*
-  console.log("Id_usera: "+ this.id_user);
-  console.log("Nazwa grupy"+group_name);
-  this.database.executeSql("DELETE FROM grupa WHERE group_name='"+group_name +"' AND user_id='"+this.id_user+"'", []).then((data) => {
-    console.log("DELETED: " + JSON.stringify(data));
-    //this.showToast('INSERTED group','top');
-  }, (error) => {
-    console.log("ERROR deleting grouo: " + JSON.stringify(error.err));
-  });
-  */
-
-
-
-/*
-  getUserId(){
-    this.database.executeSql("SELECT id FROM user WHERE username='"+this.username+"' and password='"+this.password+"'" , []).then((data) => {
-
-      // this.showToast(this.id_var,'top');
-     // this.showToast('weszło','top');
-
-      console.log(JSON.stringify(data.rows.item(0)));
-
-     // if(data.rows.length > 0) {
-        this.id_user=data.rows.item(0).id;
-        //this.showToast(data.rows.item(0).id,'top');
-
-        //this.navCtrl.push(TabsPage);
-      //}
-
-
-
-    }, (error) =>{
-      console.log("Blad pobierania id uzytkownika");
-    //  this.showToast('Brak uzytkonika', top);
     });
 
-
   }
- */
-
-
-
-
-
 
 
 }
