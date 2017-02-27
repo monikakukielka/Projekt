@@ -22,6 +22,10 @@ export class StorageService {
   public words_translation_to_edit: Words_translation;
   public groupWordsTranslations : Array<Words_translation>;
   public showPolishWords: boolean=true;
+  public showPolishWordsTest: boolean = true;
+  public positive_score: number=0;
+  public negative_score: number=0;
+  public index: number =0;
 
   constructor (public platform: Platform){
 
@@ -220,6 +224,18 @@ export class StorageService {
     },(error) =>{
       console.log("Błąd z pobraniem słów z bazy "+JSON.stringify(error));
 
+    });
+
+  }
+
+
+  addTest(positive_score, negative_score){
+    this.database.executeSql("INSERT INTO test (positive_score, negative_score, id_group) VALUES ('"+positive_score +"','"+negative_score+"','"+this.id_group_selected+"')", []).then((data) => {
+      console.log("INSERTED: " + JSON.stringify(data));
+
+      //this.showToast('INSERTED group','top');
+    }, (error) => {
+      console.log("ERROR add: " + JSON.stringify(error.err));
     });
 
   }

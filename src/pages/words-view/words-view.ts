@@ -5,6 +5,8 @@ import {ManageWordsPage} from "../manage-words/manage-words";
 import {LearnWordsPage} from "../learn-words/learn-words";
 import {StorageService} from "../../app/storage.service";
 import {BeforeLearnPage} from "../before-learn/before-learn";
+import {TestPage} from "../test/test";
+import {BeforeTestPage} from "../before-test/before-test";
 
 /*
   Generated class for the WordsView page.
@@ -36,5 +38,8 @@ export class WordsViewPage {
 
   goToStudy(){
     this.navCtrl.push(BeforeLearnPage);
+  }
+  goToTest(){
+    this.navCtrl.push(BeforeTestPage);
   }
 }

@@ -1,7 +1,7 @@
 <ion-header color="primary">
-  <ion-navbar color="primary">
-    <ion-title color="primary">
-      Fiszki
+  <ion-navbar color="primary" >
+    <ion-title color="primary" >
+      FISZKI
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -10,11 +10,14 @@
 
 <ion-content padding>
 
-  <ion-item>
-    <
-    <ion-input type="text" [(ngModel)]="list" name="username"></ion-input>
-  </ion-item>
+  <h3><pre>{{wordToshow}}</pre></h3>
+  <h3><pre> {{sentenceToShow}}</pre></h3>
+  <h3><pre>{{translationToShow}}</pre></h3>
+  <h3><pre> {{translationSentenceToShow}}</pre></h3>
+  <button large class="translationButton" (click)="showTranslation()" ion-button>Tłumaczenie</button><br>
 
-  <button large block ion-button clas="nextButton" (click)="test()">Next</button>
-
+  <button large class="knowButton" (click)="knowWord()" ion-button>Wiem </button>
+  <button large class="dontKnowButton" (click)="dontKnowWord()" ion-button>Nie wiem</button>
 </ion-content>
+
+

@@ -94,6 +94,15 @@ export class MyApp {
         }
 
 
+        db.executeSql("CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY AUTOINCREMENT, positive_score INTEGER, negative_score INTEGER, id_group INTEGER, FOREIGN KEY(id_group) REFERENCES grupa(id) )", {}).then((data) => {
+          console.log("TABLE group_translation CREATED: ", data);
+
+
+        }), (error) => {
+          console.error("Unable to execute sql", error);
+        }
+
+
 
 
       });
