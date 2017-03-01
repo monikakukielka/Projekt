@@ -11,6 +11,7 @@ import {Subject} from "rxjs";
 export class NavigationService {
   editGroupSubject = new Subject();
   createNewGroupSubject = new Subject();
+createNewWordSubject=new Subject();
 
   constructor (){}
 

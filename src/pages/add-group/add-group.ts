@@ -60,8 +60,8 @@ export class AddGroupPage {
 
   addGroup(group_name){
     this.storageService.addGroupService(this.group_name);
-    this.navCtrl.push(MyGroupPage);
-
+    this.navCtrl.pop();
+    this.storageService.subject.next();
   }
 
 

@@ -4,6 +4,7 @@ import {  SQLite, Toast } from 'ionic-native';
 import {StorageService} from "../../app/storage.service";
 import {TabsPage} from "../tabs/tabs";
 import {WordsViewPage} from "../words-view/words-view";
+import {NavigationService} from "../../app/navigation.service";
 
 /*
   Generated class for the AddWord page.
@@ -27,7 +28,7 @@ export class AddWordPage {
   public sentence_en: string='';
   public sentence_pl: string='';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,  private platform: Platform, private storageService : StorageService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,  private platform: Platform, private storageService : StorageService, private navigationService: NavigationService) {
     this.platform.ready().then(() => {
       this.database = new SQLite();
       this.database.openDatabase({name: "data.db", location: "default"}).then(() => {
@@ -75,8 +76,9 @@ export class AddWordPage {
     {
       this.storageService.addWordService(this.word_en_name, this.sentence_en, this.word_pl_name, this.sentence_pl);
       console.log("Zalogowałem");
-      this.navCtrl.push(WordsViewPage);
-
+      this.navCtrl.pop();
+      this.storageService.subject.next();
+      //this.navigationService.createNewWordSubject.next();
     }
 
 

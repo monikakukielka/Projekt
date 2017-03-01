@@ -6,7 +6,7 @@ import {SQLite} from "ionic-native";
 import {Subject} from "rxjs";
 import {Words_translation} from "../my-objects/Words_translation";
 
-
+import {  Toast } from 'ionic-native';
 @Injectable()
 export class StorageService {
   public id_user: number=0;
@@ -32,7 +32,7 @@ export class StorageService {
     this.platform.ready().then(() => {
       this.database = new SQLite();
       this.database.openDatabase({name: "data.db", location: "default"}).then(() => {
-
+      //  this.addBuildInGroup();
       //this.addUser(this.username, this.password);
       //this.getUserId();
       //this.refresh();
@@ -42,25 +42,38 @@ export class StorageService {
     });
   }
 
+  showToast(message, position) {
+    Toast.show(message, "short", position).subscribe(
+      toast => {
+        console.log(toast);
+      }
+    );
+  }
+
   addUserService(username, password){
     // console.log("Username: "+username);
     //console.log("Password: "+password);
-    this.database.executeSql("INSERT INTO user(username, password) VALUES ('"+username +"','"+password+"')", []).then((data) => {
-      console.log("INSERTED: " + JSON.stringify(data));
-    }, (error) => {
-      console.log("ERROR add: " + JSON.stringify(error.err));
-    });
+    if(username !=null && password !=null) {
+      this.database.executeSql("INSERT INTO user(username, password) VALUES ('" + username + "','" + password + "')", []).then((data) => {
+        console.log("INSERTED: " + JSON.stringify(data));
+      }, (error) => {
+        console.log("ERROR add: " + JSON.stringify(error.err));
+      });
+    }
+    else{
+      this.showToast('Musisz podać dane!!','center');
+    }
   }
 
 
   loginUserService(username,password){
-    this.database.executeSql("SELECT id FROM user WHERE username='"+username+"' and password='"+password+"'" , []).then((data) => {
-      console.log("Znalazlem uzytkownika " + JSON.stringify(data));
-      this.id_user=data.rows.item(0).id;
-      // return this.id_user
+      this.database.executeSql("SELECT id FROM user WHERE username='" + username + "' and password = '"+password+"'" , []).then((data) => {
+        console.log("Znalazlem uzytkownika " + JSON.stringify(data));
+        this.id_user=data.rows.item(0).id;
+        // return this.id_user
       }, (error) =>{
-      console.log(" Error login: "+ JSON.stringify(error.err));
-    });
+        console.log(" Error login: "+ JSON.stringify(error.err));
+      });
   }
 
   addWordService(word_en_name, sentence_en, word_pl_name, sentence_pl){
@@ -94,6 +107,7 @@ export class StorageService {
             console.log("insertId group_translation: " + data.insertId);
             console.log('Dodano id_group:' + this.id_group_selected + ' i id-translation ' + insertedTranslationId, 'top');
 
+            this.subject.next("");
           }, (error) => {
             console.log("Error add group_translation " + JSON.stringify(error.err));
           });
@@ -184,6 +198,7 @@ export class StorageService {
     },(error) => {
       console.log("Błąd z updatem word_pl"+ JSON.stringify(error));
     });
+    this.subject.next("");
   }
 
 
@@ -240,5 +255,22 @@ export class StorageService {
 
   }
 
+/*
+  addBuildInGroup(){
+    this.database.executeSql("INSERT INTO grupa(id, group_name, built_in ) VALUES ('1','Szkoła','1')", []).then((data) => {
+      console.log("INSERTED: " + JSON.stringify(data));
 
+      //this.showToast('INSERTED group','top');
+    }, (error) => {
+      console.log("ERROR add: " + JSON.stringify(error.err));
+    });
+    this.database.executeSql("INSERT INTO grupa(id, group_name, built_in ) VALUES ('1','Praca','1','1')", []).then((data) => {
+      console.log("INSERTED: " + JSON.stringify(data));
+
+      //this.showToast('INSERTED group','top');
+    }, (error) => {
+      console.log("ERROR add: " + JSON.stringify(error.err));
+    });
+  }
+*/
 }

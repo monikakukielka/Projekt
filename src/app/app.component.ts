@@ -27,7 +27,7 @@ export class MyApp {
         name: "data.db",
         location: "default"
       }).then(() => {
-        db.executeSql("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT)", {}).then((data) => {
+        db.executeSql("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL)", {}).then((data) => {
           console.log("TABLE user CREATED: ", data);
 
 
@@ -35,19 +35,17 @@ export class MyApp {
           console.error("Unable to execute sql", error);
         }
 
-     /*   db.executeSql("CREATE TABLE IF NOT EXISTS groo (id INTEGER PRIMARY KEY AUTOINCREMENT, group_name TEXT, id_user INTEGER, FOREIGN KEY(id_user) REFERENCES user(id))", {}).then((data) => {
-          console.log("TABLE group CREATED: ", data);
+        /*   db.executeSql("CREATE TABLE IF NOT EXISTS groo (id INTEGER PRIMARY KEY AUTOINCREMENT, group_name TEXT, id_user INTEGER, FOREIGN KEY(id_user) REFERENCES user(id))", {}).then((data) => {
+         console.log("TABLE group CREATED: ", data);
 
 
-        }), (error) => {
-          console.error("Unable to execute sql", error);
-        }
-        */
+         }), (error) => {
+         console.error("Unable to execute sql", error);
+         }
+         */
 
 
-
-
-        db.executeSql("CREATE TABLE IF NOT EXISTS word_en (id INTEGER PRIMARY KEY AUTOINCREMENT, word_en_name TEXT, sentence_en TEXT)", {}).then((data) => {
+        db.executeSql("CREATE TABLE IF NOT EXISTS word_en (id INTEGER PRIMARY KEY AUTOINCREMENT, word_en_name TEXT NOT NULL, sentence_en TEXT)", {}).then((data) => {
           console.log("TABLE word_en CREATED: ", data);
 
 
@@ -56,7 +54,7 @@ export class MyApp {
         }
 
 
-        db.executeSql("CREATE TABLE IF NOT EXISTS word_pl (id INTEGER PRIMARY KEY AUTOINCREMENT, word_pl_name TEXT, sentence_pl TEXT)", {}).then((data) => {
+        db.executeSql("CREATE TABLE IF NOT EXISTS word_pl (id INTEGER PRIMARY KEY AUTOINCREMENT, word_pl_name TEXT NOT NULL, sentence_pl TEXT)", {}).then((data) => {
           console.log("TABLE word_pl CREATED: ", data);
 
 
@@ -75,7 +73,7 @@ export class MyApp {
 
         console.log("przed tworzeniem ");
 
-        db.executeSql("CREATE TABLE IF NOT EXISTS grupa (id INTEGER PRIMARY KEY AUTOINCREMENT, group_name TEXT, built_in integer DEFAULT 0, id_user INTEGER, FOREIGN KEY(id_user) REFERENCES user(id))", {}).then((data) => {
+        db.executeSql("CREATE TABLE IF NOT EXISTS grupa (id INTEGER PRIMARY KEY AUTOINCREMENT, group_name TEXT NOT NULL, built_in integer DEFAULT 0, id_user INTEGER, FOREIGN KEY(id_user) REFERENCES user(id))", {}).then((data) => {
           console.log("TABLE group CREATED:");
 
 
@@ -103,13 +101,24 @@ export class MyApp {
         }
 
 
+        db.executeSql("INSERT INTO grupa(id, group_name, built_in ) VALUES ('1','Szkoła','1')", []).then((data) => {
+          console.log("INSERTED: " + JSON.stringify(data));
+
+          //this.showToast('INSERTED group','top');
+        }, (error) => {
+          console.log("ERROR add: " + JSON.stringify(error.err));
+        });
+
+        db.executeSql("INSERT INTO grupa(id, group_name, built_in ) VALUES ('2','Praca','1')", []).then((data) => {
+          console.log("INSERTED: " + JSON.stringify(data));
+
+          //this.showToast('INSERTED group','top');
+        }, (error) => {
+          console.log("ERROR add: " + JSON.stringify(error.err));
+        });
 
 
       });
-
-
-
-
     });
   }
 }

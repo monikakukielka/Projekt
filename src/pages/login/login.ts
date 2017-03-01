@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NavController, Platform, NavParams} from 'ionic-angular';
+import {NavController, Platform, NavParams, ViewController} from 'ionic-angular';
 import { Signup } from '../signup/signup';
 import {SQLite, Toast} from 'ionic-native';
 import {StorageService} from "../../app/storage.service";
@@ -17,9 +17,9 @@ export class LoginPage {
   public database: SQLite;
   public user: Array<Object>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService: StorageService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService: StorageService, private viewCtrl: ViewController) {
 
-  /*  this.platform.ready().then(() => {
+    this.platform.ready().then(() => {
       this.database = new SQLite();
       this.database.openDatabase({name: "data.db", location: "default"}).then(() => {
         this.refresh();
@@ -27,7 +27,7 @@ export class LoginPage {
         console.log("ERROR constructor: ", error);
       });
     });
-*/
+
   }
 
   goToSignUp(){
@@ -42,16 +42,30 @@ export class LoginPage {
     );
   }
 
-  login(){
-    this.showToast('Przed logowaniem','top');
-    if(this.username != null && this.password != null)
-    {
-      this.storageService.loginUserService(this.username, this.password);
-      console.log("Zalogowałem");
-      this.navCtrl.push(TabsPage);
+  login() {
+   // this.showToast('Przed logowaniem', 'top');
+    if (this.username != '' && this.password != '') {
+      this.database.executeSql("SELECT id FROM user WHERE username='" + this.username + "' and password = '"+this.password+"'" , []).then((data) => {
+        console.log("Znalazlem uzytkownika " + JSON.stringify(data));
+        this.storageService.id_user=data.rows.item(0).id;
+        // return this.id_user
+        console.log("Zalogowałem");
+        this.navCtrl.push(TabsPage).then(() => {
+          // first we find the index of the current view controller:
+          const index = this.viewCtrl.index;
+          // then we remove it from the navigation stack
+          this.navCtrl.remove(index);
+        });;
+      }, (error) =>{
+        console.log(" Error login: "+ JSON.stringify(error.err));
+      });
+
+    }
+    else {
+      this.showToast('Musisz podać dane!!', 'top');
     }
 
-
+  }
     //this.showToast(this.username,'top');
     /*this.database.executeSql("SELECT id FROM user WHERE username='"+this.username+"' and password='"+this.password+"'" , []).then((data) => {
 
@@ -73,9 +87,9 @@ export class LoginPage {
       this.showToast('Brak uzytkonika', top);
     });
     */
-  }
 
- /* public refresh(){
+
+  public refresh(){
     this.database.executeSql("SELECT * FROM user", []).then((data) => {
       this.user = [];
       if (data.rows.length > 0) {
@@ -93,7 +107,7 @@ export class LoginPage {
 
     });
   }
-*/
+
 }
 
 

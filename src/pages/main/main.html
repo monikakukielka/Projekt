@@ -1,29 +1,23 @@
 <ion-header color="primary">
-
   <ion-navbar color="primary" >
-    <ion-title color="primary" >FISZKI</ion-title>
-
-
+    <ion-title color="primary">
+      FISZKI
+    </ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
 
-  <ion-list>
+      <ion-list radio-group>
 
-    <button clear ion-button (click)="learn()">Group name</button>
+        <ion-item *ngFor="let item of myGroups;let i = index;" (click)="itemSelected(i)">
+          <ion-label><button ion-button clear> {{ item.group_name }} </button> </ion-label>
+
+        </ion-item>
 
 
-  </ion-list>
-<!--
- <ion-list>
+      </ion-list>
 
-  <button large block ion-button class="myButton" color="secondary" (click)="powtarzanie()">Powtarzaj</button>
-  <button large block ion-button class="testButton" color="banana" (click)="testPage()">Test</button>
-  <button large block ion-button class="addButton" color="juice" (click)="createGroup()">Skomponuj własny zestaw</button>
 
- </ion-list>
-
--->
 </ion-content>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {StorageService} from "../../app/storage.service";
+import {Toast} from "ionic-native";
 
 /*
   Generated class for the Test page.
@@ -30,6 +31,14 @@ export class TestPage {
     this.reloadWordToShow();
   }
 
+  showToast(message, position) {
+    Toast.show(message, "short", position).subscribe(
+      toast => {
+        console.log(toast);
+      }
+    );
+  }
+
   reloadWordToShow(){
     console.log("!!!! group words translation length "+ this.storageService.groupWordsTranslations.length);
     if(this.storageService.groupWordsTranslations.length==0){
@@ -57,6 +66,7 @@ export class TestPage {
     }else{
       this.translationToShow=this.storageService.groupWordsTranslations[this.storageService.index].word_pl_name;
       this.translationSentenceToShow =  this.storageService.groupWordsTranslations[this.storageService.index].sentence_pl;
+     this.navCtrl.pop();
     }
 
   }
@@ -77,6 +87,12 @@ export class TestPage {
     }
     if(this.storageService.index+1==this.storageService.groupWordsTranslations.length){
       console.log("Positive score "+ this.storageService.positive_score);
+      this.showToast("Poprawnych odpowiedzi: " + this.storageService.positive_score+" złych odpowiedzi: "+this.storageService.negative_score+"", 'top');
+      this.navCtrl.pop();
+      this.storageService.positive_score=0;
+      this.storageService.negative_score=0;
+      this.storageService.index=0;
+
     }
 
    // this.storageService.positive_score=this.storageService.positive_score+1;
@@ -97,6 +113,11 @@ export class TestPage {
     }
     if(this.storageService.index+1==this.storageService.groupWordsTranslations.length){
       console.log("Negative score "+ this.storageService.negative_score);
+      this.showToast("Poprawnych odpowiedzi: " + this.storageService.positive_score+" złych odpowiedzi: "+this.storageService.negative_score+"", 'top');
+      this.navCtrl.pop();
+      this.storageService.negative_score=0;
+      this.storageService.positive_score=0;
+      this.storageService.index=0;
     }
 
   }

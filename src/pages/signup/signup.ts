@@ -46,14 +46,20 @@ export class Signup {
 
   public signup() {
     console.log("Weszłem do logowania");
-
+  if(this.password!='' && this.username!=''){
     if (this.password == this.confirm_password) {
+
       console.log("Username w signup: "+ this.username);
 
       this.storageService.addUserService(this.username, this.password);
       console.log("Dodałem");
       this.navCtrl.push(LoginPage);
     }
+  }
+  else{
+    this.showToast('Musisz podać dane!!','top');
+  }
+
     /*   this.database.executeSql("INSERT INTO user(username, password) VALUES ('"+this.username +"','"+this.password+"')", []).then((data) => {
      console.log("INSERTED: " + JSON.stringify(data));
 

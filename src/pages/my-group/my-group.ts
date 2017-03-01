@@ -162,8 +162,8 @@ export class MyGroupPage {
 
 loadMyGroups(){
   console.log("log my groups");
-  this.database.executeSql("SELECT * FROM grupa WHERE built_in = 0", []).then((data) => {
-    this.showToast('weszło','top');
+  this.database.executeSql("SELECT * FROM grupa WHERE built_in = 0 and id_user='"+this.storageService.id_user+"'", []).then((data) => {
+   // this.showToast('weszło','top');
 console.log("znalazlo");
     console.log(JSON.stringify(data));
 

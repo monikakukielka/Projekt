@@ -39,8 +39,8 @@ export class EditWordPage {
 
   editWord(){
     this.storageService.updateWord(this.storageService.words_translation_to_edit);
-    this.navCtrl.push(ManageWordsPage);
-
+    this.navCtrl.pop();
+    this.storageService.subject.next();
   }
 
 }
