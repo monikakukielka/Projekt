@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import {NavController, Platform, NavParams, ViewController} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 import { Signup } from '../signup/signup';
-import {SQLite, Toast} from 'ionic-native';
-import {StorageService} from "../../app/storage.service";
 import { TabsPage} from "../tabs/tabs";
 
 @Component({
@@ -14,11 +12,11 @@ export class LoginPage {
   public zmienna: String ='';
   public username: String = '';
   public password: String = '';
-  public database: SQLite;
+
   public user: Array<Object>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService: StorageService, private viewCtrl: ViewController) {
-
+  constructor(public navCtrl: NavController) {
+/*
     this.platform.ready().then(() => {
       this.database = new SQLite();
       this.database.openDatabase({name: "data.db", location: "default"}).then(() => {
@@ -27,24 +25,20 @@ export class LoginPage {
         console.log("ERROR constructor: ", error);
       });
     });
-
+*/
   }
 
   goToSignUp(){
     this.navCtrl.push(Signup);
   }
 
-  showToast(message, position) {
-    Toast.show(message, "short", position).subscribe(
-      toast => {
-        console.log(toast);
-      }
-    );
-  }
+
 
   login() {
+
+    this.navCtrl.push(TabsPage);
    // this.showToast('Przed logowaniem', 'top');
-    if (this.username != '' && this.password != '') {
+  /*  if (this.username != '' && this.password != '') {
       this.database.executeSql("SELECT id FROM user WHERE username='" + this.username + "' and password = '"+this.password+"'" , []).then((data) => {
         console.log("Znalazlem uzytkownika " + JSON.stringify(data));
         this.storageService.id_user=data.rows.item(0).id;
@@ -63,7 +57,7 @@ export class LoginPage {
     }
     else {
       this.showToast('Musisz podać dane!!', 'top');
-    }
+    }*/
 
   }
     //this.showToast(this.username,'top');
@@ -87,7 +81,7 @@ export class LoginPage {
       this.showToast('Brak uzytkonika', top);
     });
     */
-
+/*
 
   public refresh(){
     this.database.executeSql("SELECT * FROM user", []).then((data) => {
@@ -105,8 +99,8 @@ export class LoginPage {
     },(error) => {
       console.log("ERROR refresh: " + JSON.stringify(error));
 
-    });
-  }
+    });*/
+
 
 }
 

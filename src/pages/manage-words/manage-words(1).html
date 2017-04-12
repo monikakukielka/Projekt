@@ -1,0 +1,45 @@
+<ion-header color="primary">
+  <ion-navbar color="primary">
+    <ion-title color="primary">
+      Fiszki
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list radio-group>
+
+    <ion-item *ngFor="let item of storageService.groupWordsTranslations;let i = index;" (click)="itemWordSelected(i)">
+      <ion-label><button ion-button clear>{{item.word_en_name}}-{{item.word_pl_name}}</button> </ion-label>
+      <ion-checkbox checked={{item.to_delete}} [class.show]="toDelete" [class.hide]="!toDelete"  [(ngModel)]="item.to_delete"></ion-checkbox> <!--tylko wtedy jak nacisne to delete-->
+      <ion-radio checked={{item.to_edit}} (click)="editWordSecleted(item.id_translation)" [class.show]="toEdit" [class.hide]="!toEdit" [(ngModel)]="item.to_edit" ngDefaultControl></ion-radio> <!-- tylko wtedy jak edytuje-->
+    </ion-item>
+
+
+  </ion-list>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+
+    <ion-buttons>
+      <button [class.show]="!toDelete" [class.hide]="toDelete" ion-button icon-only class="addButton" color="royal" (click)="goToAddWord()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+
+
+      <button  [class.show]="!toDelete"  [class.hide]="toDelete" (click)="goToEditWord()" ion-button icon-only class="editButton" align="center" color="royal">
+        <ion-icon name="create"></ion-icon>
+      </button>
+
+      <button ion-button icon-only class="removeButton" color="royal" (click)="removeWord()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-buttons>
+
+
+  </ion-toolbar>
+</ion-footer>

@@ -6,7 +6,7 @@ import {AddWordPage} from "../add-word/add-word";
 import {LearnWordsPage} from "../learn-words/learn-words";
 import {NavigationService} from "../../app/navigation.service";
 import {EditGroupPage} from "../edit-group/edit-group";
-import {SQLite, Toast} from "ionic-native";
+import {Toast} from "ionic-native";
 import {Grupa} from "../../my-objects/Grupa";
 import {StorageService} from "../../app/storage.service";
 /*
@@ -21,14 +21,14 @@ import {StorageService} from "../../app/storage.service";
 
 })
 export class MainPage {
-  public database: SQLite;
+ // public database: SQLite;
   public grupa: Array<Object>;
   public myGroups: Array<Grupa>;
   public group_name: String='';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public navigationService: NavigationService, public storageService: StorageService, public platform: Platform) {
+  constructor(public navCtrl: NavController) {
    // this.storageService.addBuildInGroup();
-    this.platform.ready().then(() => {
+  /*  this.platform.ready().then(() => {
       this.database = new SQLite();
       this.database.openDatabase({name: "data.db", location: "default"}).then(() => {
         console.log("Open database my group");
@@ -37,7 +37,7 @@ export class MainPage {
       }, (error) => {
         console.log("ERROR constructor: ", error);
       });
-    });
+    }); */
   }
 
   ionViewDidLoad() {
@@ -54,18 +54,13 @@ export class MainPage {
     this.navCtrl.push(LearnWordsPage);
   }
 
-  showToast(message, position) {
-    Toast.show(message, "short", position).subscribe(
-      toast => {
-        console.log(toast);
-      }
-    );
+  goToWordsView(){
+    this.navCtrl.push(LearnWordsPage);
   }
-
 
   loadMyGroups(){
     console.log("log my groups");
-    this.database.executeSql("SELECT * FROM grupa WHERE built_in = 1 ", []).then((data) => {
+    /* this.database.executeSql("SELECT * FROM grupa WHERE built_in = 1 ", []).then((data) => {
       // this.showToast('weszło','top');
       console.log("znalazlo");
       console.log(JSON.stringify(data));
@@ -95,12 +90,13 @@ export class MainPage {
        g.builtIn=data.rows.item(i).built_in;
        g.groupName= data
        console.log(this.group_name);
-       }*/
+       }
 
 
     }, (error) =>{
       this.showToast('Brak uzytkonika', top);
     });
+
 
   }
 
@@ -120,6 +116,47 @@ export class MainPage {
     },(error) => {
       console.log("ERROR refresh: " + JSON.stringify(error));
 
-    });
+    });*/
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

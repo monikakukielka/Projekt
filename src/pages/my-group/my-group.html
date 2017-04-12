@@ -10,16 +10,11 @@
 
 <ion-content>
 
-  <ion-list radio-group>
 
-    <ion-item *ngFor="let item of myGroups;let i = index;" (click)="itemSelected(i)">
-      <ion-label><button ion-button clear (click)="goToWordsView(i)"> {{ item.group_name }} </button> </ion-label>
-      <ion-checkbox checked={{item.to_delete}} [class.show]="toDelete" [class.hide]="!toDelete"  [(ngModel)]="item.to_delete"></ion-checkbox> <!--tylko wtedy jak nacisne to delete-->
-      <ion-radio checked={{item.to_edit}} (click)="editGroupSecleted(i)" [class.show]="toEdit" [class.hide]="!toEdit" [(ngModel)]="item.to_edit" ngDefaultControl></ion-radio> <!-- tylko wtedy jak edytuje-->
-    </ion-item>
+      <ion-label><button ion-button clear (click)="goToWordsView()"> KOLORY </button> </ion-label>
+      <ion-checkbox  [class.show]="toDelete" [class.hide]="!toDelete"  [(ngModel)]="item.to_delete"></ion-checkbox> <!--tylko wtedy jak nacisne to delete-->
+      <ion-radio [class.show]="toEdit" [class.hide]="!toEdit" [(ngModel)]="item.to_edit" ngDefaultControl></ion-radio> <!-- tylko wtedy jak edytuje-->
 
-
-  </ion-list>
 
 </ion-content>
 
@@ -27,7 +22,7 @@
   <ion-toolbar>
 
     <ion-buttons>
-      <button [class.show]="!toDelete" [class.hide]="toDelete" ion-button icon-only class="addButton" color="royal" (click)="goToAddGroup()">
+      <button [class.show]="!toDelete" [class.hide]="toDelete" [class.show]="!toEdit" [class.hide]="toEdit" ion-button icon-only class="addButton" color="royal" (click)="goToAddGroup()">
         <ion-icon name="add"></ion-icon>
       </button>
 
@@ -36,7 +31,7 @@
         <ion-icon name="create"></ion-icon>
       </button>
 
-      <button ion-button icon-only class="removeButton" color="royal" (click)="removeGroup()">
+      <button [class.show]="!toEdit" [class.hide]="toEdit" ion-button icon-only class="removeButton" color="royal" (click)="removeGroup()">
         <ion-icon name="trash"></ion-icon>
       </button>
     </ion-buttons>

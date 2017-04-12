@@ -1,0 +1,14 @@
+
+<ion-header color="primary">
+  <ion-navbar color="primary" >
+    <ion-title color="primary">
+      FISZKI
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-tabs tabsPlacement="top">
+  <ion-tab [root]="tab1Root" tabTitle="Grupy"></ion-tab>
+  <ion-tab  (notify)='onNotify($event)' [root]="tab2Root" tabTitle="Moje Grupy"></ion-tab>
+</ion-tabs>
+
