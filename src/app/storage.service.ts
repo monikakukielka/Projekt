@@ -26,7 +26,7 @@ export class StorageService {
   public positive_score: number=0;
   public negative_score: number=0;
   public index: number =0;
-  public score: number = 0;
+
   constructor (public platform: Platform){
 
     this.platform.ready().then(() => {
@@ -54,7 +54,7 @@ export class StorageService {
     // console.log("Username: "+username);
     //console.log("Password: "+password);
     if(username !=null && password !=null) {
-      this.database.executeSql("INSERT INTO IF NOT EXISTS user(username, password) VALUES ('" + username + "','" + password + "')", []).then((data) => {
+      this.database.executeSql("INSERT INTO user(username, password) VALUES ('" + username + "','" + password + "')", []).then((data) => {
         console.log("INSERTED: " + JSON.stringify(data));
       }, (error) => {
         console.log("ERROR add: " + JSON.stringify(error.err));
@@ -76,7 +76,7 @@ export class StorageService {
       });
   }
 
-  asddWordService(word_en_name, sentence_en, word_pl_name, sentence_pl){
+  addWordService(word_en_name, sentence_en, word_pl_name, sentence_pl){
     var insertedWordEnId : Number=0;
     var insertedWordPlId : Number=0;
     var insertedTranslationId: Number = 0;
@@ -203,7 +203,7 @@ export class StorageService {
 
 
 //pobieranie danych z bazy
-  dselectWords(grupaId:number){
+  selectWords(grupaId:number){
     console.log("Id grupy selectW "+grupaId);
     this.groupWordsTranslations =[];
     this.database.executeSql("SELECT word_pl_name, word_en_name, translation.id, sentence_en, sentence_pl, word_en.id, word_pl.id FROM translation JOIN word_pl ON word_pl.id = translation.id_word_pl JOIN word_en ON word_en.id =translation.id_word_en JOIN group_translation ON group_translation.id_translation=translation.id JOIN grupa ON grupa.id = group_translation.id_group WHERE grupa.id='"+grupaId+"'",[]).then((data) =>{
@@ -273,76 +273,4 @@ export class StorageService {
     });
   }
 */
-
-
-
-
-addWordService(word_en_name, sentence_en, word_pl_name, sentence_pl){
-  var insertedWordEnId : Number=0;
-  var insertedWordPlId : Number=0;
-  var insertedTranslationId: Number = 0;
-
-  this.database.executeSql("INSERT INTO word_en(word_en_name, sentence_en) " +
-        "VALUES ('" + word_en_name + "' , '" + sentence_en + "')", []).then((data) => {
-        insertedWordEnId = data.insertId;
-
-        this.database.executeSql("INSERT INTO word_pl(word_pl_name, sentence_pl) " +
-          "VALUES ('" + word_pl_name + "' , '" + sentence_pl + "')", []).then((data) => {
-          insertedWordPlId = data.insertId;
-
-            this.database.executeSql("INSERT INTO translation (id_word_en, id_word_pl) " +
-              "VALUES ('" + insertedWordEnId + "','" + insertedWordPlId + "')", []).then((data) => {
-              insertedTranslationId=data.insertId;
-
-              this.database.executeSql("INSERT INTO group_translation (id_group, id_translation) " +
-                "VALUES ('" + this.id_group_selected + "','" + insertedTranslationId + "')", []).then((data) => {
-                this.subject.next("");
-                }, (error) => {
-                  console.log("Error add group_translation " + JSON.stringify(error.err));
-                  });
-            }, (error) => {
-                console.log("ERROR add: " + JSON.stringify(error.err));
-            });
-        }, (error) => {
-          console.log("ERROR adding word_pl: " + JSON.stringify(error.err));
-    });
-  }, (error) => {
-    console.log("ERROR adding word_en: " + JSON.stringify(error.err));
-  });
-}
-
-
-  selectWords(grupaId:number){
-
-    this.groupWordsTranslations =[];
-    this.database.executeSql("SELECT word_pl_name, word_en_name, translation.id, " +
-      "sentence_en, sentence_pl, word_en.id, word_pl.id"+
-      "FROM translation JOIN word_pl ON word_pl.id = translation.id_word_pl " +
-      "JOIN word_en ON word_en.id =translation.id_word_en " +
-      "JOIN group_translation ON group_translation.id_translation=translation.id " +
-      "JOIN grupa ON grupa.id = group_translation.id_group " +
-      "WHERE grupa.id='"+grupaId+"'",[]).then((data) =>{
-
-      if(data.rows.length>0) {
-        for(let i=0;i<data.rows.length;i++) {
-          let myWords_translation: Words_translation=new Words_translation();
-          myWords_translation.word_pl_name=data.rows.item(i).word_pl_name;
-          myWords_translation.word_en_name=data.rows.item(i).word_en_name;
-          myWords_translation.id_translation=data.rows.item(i).id;
-          myWords_translation.sentence_en=data.rows.item(i).sentence_en;
-          myWords_translation.sentence_pl=data.rows.item(i).sentence_pl;
-          myWords_translation.id_word_pl=data.rows.item(i).id;
-          myWords_translation.id_word_en=data.rows.item(i).id;
-          this.groupWordsTranslations.push(myWords_translation);
-        }
-      }
-    },(error) =>{
-      console.log("Błąd z pobraniem słów z bazy "+JSON.stringify(error));
-    });
-  }
-
-
-
-
-
 }

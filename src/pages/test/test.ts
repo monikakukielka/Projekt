@@ -21,8 +21,7 @@ export class TestPage {
   sentenceToShow : string ='';
   translationToShow : string='';
   translationSentenceToShow : string='';
-  word: string='';
-  sumScore:number=0;
+
  // index: number = 0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public storageService : StorageService) {}
@@ -76,34 +75,20 @@ export class TestPage {
   knowWord(){
     console.log("showNext Word" + this.storageService.groupWordsTranslations.length +"   id"+ this.storageService.index );
    // this.storageService.positive_score=0;
-    this.showTranslation();
     if(this.storageService.index+1<this.storageService.groupWordsTranslations.length){
-      console.log("Słowo podane "+ this.word);
-      console.log("Tłumaczenie"+ this.translationToShow);
-      if(this.word==this.translationToShow){
-        this.storageService.index=this.storageService.index+1;
-      //  this.translationToShow='';
-      //  this.translationSentenceToShow='';
-        this.reloadWordToShow();
-        //this.storageService.positive_score=+1;
-        this.storageService.positive_score=this.storageService.positive_score+1;
-      }
-      else{
-        this.storageService.index=this.storageService.index+1;
-        this.storageService.negative_score=this.storageService.negative_score+1;
-        //this.translationToShow='';
-      //  this.translationSentenceToShow='';
-        this.reloadWordToShow();
-      }
 
+      this.storageService.index=this.storageService.index+1;
+      this.translationToShow='';
+      this.translationSentenceToShow='';
+      this.reloadWordToShow();
+      //this.storageService.positive_score=+1;
+      this.storageService.positive_score=this.storageService.positive_score+1;
 
     }
     if(this.storageService.index+1==this.storageService.groupWordsTranslations.length){
       console.log("Positive score "+ this.storageService.positive_score);
-      this.storageService.score= (this.storageService.positive_score*100)/(this.storageService.positive_score+this.storageService.negative_score);
-      this.showToast("Wykonałeś: " + this.storageService.score+"% poprawnych odpowiedzi", 'top');
+      this.showToast("Poprawnych odpowiedzi: " + this.storageService.positive_score+" złych odpowiedzi: "+this.storageService.negative_score+"", 'top');
       this.navCtrl.pop();
-      this.storageService.score=0;
       this.storageService.positive_score=0;
       this.storageService.negative_score=0;
       this.storageService.index=0;
@@ -114,37 +99,6 @@ export class TestPage {
   //  this.storageService.positive_score=0;
   }
 
-
-  test(){
-    this.showTranslation();
-    if(this.storageService.index+1<this.storageService.groupWordsTranslations.length){
-      if(this.word==this.translationToShow){
-        this.storageService.index=this.storageService.index+1;
-        this.reloadWordToShow();
-        this.storageService.positive_score=this.storageService.positive_score+1;
-      }
-      else{
-        this.storageService.index=this.storageService.index+1;
-        this.storageService.negative_score=this.storageService.negative_score+1;
-        this.reloadWordToShow();
-      }
-    }
-    if(this.storageService.index+1==this.storageService.groupWordsTranslations.length){
-      this.sumScore=this.storageService.positive_score+this.storageService.negative_score;
-      this.storageService.score= (this.storageService.positive_score*100)/this.sumScore;
-      this.showToast("Wykonałeś: " + this.storageService.score+"% poprawnych odpowiedzi", 'top');
-      this.navCtrl.pop();
-      this.storageService.score=0;
-      this.storageService.positive_score=0;
-      this.storageService.negative_score=0;
-      this.storageService.index=0;
-
-    }
-  }
-
-
-
-  /*
   dontKnowWord(){
     if(this.storageService.index+1<this.storageService.groupWordsTranslations.length){
       //this.storageService.negative_score=0;
@@ -166,9 +120,8 @@ export class TestPage {
       this.storageService.index=0;
     }
 
-
   }
-*/
+
 
 
 }

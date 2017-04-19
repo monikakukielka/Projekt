@@ -11,16 +11,13 @@
 <ion-content padding>
 
   <h3><pre>{{wordToshow}}</pre></h3>
+  <h3><pre> {{sentenceToShow}}</pre></h3>
+  <h3><pre>{{translationToShow}}</pre></h3>
+  <h3><pre> {{translationSentenceToShow}}</pre></h3>
+<!--  <button large class="translationButton" (click)="showTranslation()" ion-button>Tłumaczenie</button><br>-->
 
-  <ion-item>
-    <ion-label floating>Podaj słowo</ion-label>
-    <ion-input type="text" [(ngModel)]="word" name="word"></ion-input>
-  </ion-item>
-
-
-
-  <button large class="knowButton" (click)="knowWord()" ion-button>Następne</button>
-
+  <button large class="knowButton" (click)="knowWord()" ion-button>Wiem </button>
+  <button large class="dontKnowButton" (click)="dontKnowWord()" ion-button>Nie wiem</button>
 </ion-content>
 
 

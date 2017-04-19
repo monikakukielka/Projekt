@@ -2,14 +2,13 @@ import {Component, Output} from '@angular/core';
 import {NavController, NavParams, Platform} from 'ionic-angular';
 import {AddGroupPage} from "../add-group/add-group";
 import {EditGroupPage} from "../edit-group/edit-group";
-import {Toast} from "ionic-native";
+import {SQLite, Toast} from "ionic-native";
 import {Grupa} from "../../my-objects/Grupa";
 import {WordsViewPage} from "../words-view/words-view";
 import {StorageService} from "../../app/storage.service";
 import {Subject} from "rxjs";
 import {EventEmitter} from "@angular/common/src/facade/async";
 import {NavigationService} from "../../app/navigation.service";
-import {LearnWordsPage} from "../learn-words/learn-words";
 
 
 @Component({
@@ -19,7 +18,7 @@ import {LearnWordsPage} from "../learn-words/learn-words";
 export class MyGroupPage {
 
 
-//  public database: SQLite;
+  public database: SQLite;
   public grupa: Array<Object>;
   public builtInGroups: Array<Grupa>;
   public myGroups: Array<Grupa>;
@@ -32,12 +31,10 @@ export class MyGroupPage {
 
   @Output() notify: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform, private storageService:StorageService, private navigationService : NavigationService) {
 
-    goToWordsView(){
-      this.navCtrl.push(LearnWordsPage);
-    }
-/*
+
+
     this.storageService.subject.subscribe((value) => {
       console.log("Reload db "); // Subscription wont get
       this.myGroups=[];
@@ -196,7 +193,7 @@ console.log("znalazlo");
         g.groupName= data
         console.log(this.group_name);
       }*/
-/*
+
 
 }, (error) =>{
   this.showToast('Brak uzytkonika', top);
@@ -223,6 +220,6 @@ console.log("znalazlo");
       console.log("ERROR refresh: " + JSON.stringify(error));
 
     });
-    */
+  }
 
 }

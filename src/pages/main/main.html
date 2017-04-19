@@ -9,64 +9,15 @@
 
 <ion-content padding>
 
+      <ion-list radio-group>
+
+        <ion-item *ngFor="let item of myGroups;let i = index;" (click)="itemSelected(i)">
+          <ion-label><button ion-button clear> {{ item.group_name }} </button> </ion-label>
+
+        </ion-item>
 
 
-
-          <button ion-button clear (click)="goToWordsView()"> SZKOŁA </button><br>
-          <button ion-button clear> PRACA</button>
-
-
-
+      </ion-list>
 
 
 </ion-content>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h3>Podaj słowo w języku angielskim </h3>
-
-<ion-list no-lines>
-  <ion-item>
-
-    <ion-label floating>Angielskie słowo </ion-label>
-    <ion-input type="text" [(ngModel)]="word_en_name" name="word_en_name"></ion-input>
-  </ion-item>
-
-  <h3>Podaj tłumaczenie słowa w języku polskim </h3>
-
-  <ion-item>
-    <ion-label floating>Polskie słowo </ion-label>
-    <ion-input type="text" [(ngModel)]="word_pl_name" name="word_pl_name"></ion-input>
-  </ion-item>
-
-  <h3>Podaj zdanie po angielsku</h3>
-
-  <ion-item>
-    <ion-label floating>Zdanie po angielsku</ion-label>
-    <ion-input type="text" [(ngModel)]="sentence_en" name="sentence_en"></ion-input>
-  </ion-item>
-
-
-  <h3>Podaj tłumaczenie</h3>
-  <ion-item>
-    <ion-label floating>Zdanie po polsku </ion-label>
-    <ion-input type="text" [(ngModel)]="sentence_pl" name="sentence_pl"></ion-input>
-  </ion-item>
-
-</ion-list>
