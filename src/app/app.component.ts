@@ -92,24 +92,6 @@ export class MyApp {
           console.error("Unable to execute sql", error);
         }
 
-
-        db.executeSql("INSERT INTO grupa(id, group_name, built_in ) VALUES ('1','Szkoła','1')", []).then((data) => {
-          console.log("INSERTED: " + JSON.stringify(data));
-
-          //this.showToast('INSERTED group','top');
-        }, (error) => {
-          console.log("ERROR add: " + JSON.stringify(error.err));
-        });
-
-        db.executeSql("INSERT INTO grupa(id, group_name, built_in ) VALUES ('2','Praca','1')", []).then((data) => {
-          console.log("INSERTED: " + JSON.stringify(data));
-
-          //this.showToast('INSERTED group','top');
-        }, (error) => {
-          console.log("ERROR add: " + JSON.stringify(error.err));
-        });
-
-
       });
     });
   }
